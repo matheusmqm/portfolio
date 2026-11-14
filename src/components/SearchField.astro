@@ -1,0 +1,19 @@
+---
+interface Props {
+  placeholder: string;
+  label: string;
+}
+const { placeholder, label } = Astro.props;
+---
+
+<label class="search" id="search-field" hidden>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"
+    ><circle cx="7" cy="7" r="4.75" stroke="currentColor" stroke-width="1.5"></circle><path
+      d="M10.5 10.5 14 14"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"></path></svg
+  >
+  <input type="search" id="project-search" placeholder={placeholder} aria-label={label} autocomplete="off" />
+  <kbd id="search-kbd" aria-hidden="true">Ctrl K</kbd>
+</label>

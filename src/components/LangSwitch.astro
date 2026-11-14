@@ -1,0 +1,28 @@
+---
+import { t, paths, type Lang } from '../i18n/ui';
+interface Props {
+  lang: Lang;
+  altHref: string;
+}
+const { lang, altHref } = Astro.props;
+const u = t(lang);
+const here = paths.home(lang);
+---
+
+<div class="lang" role="group" aria-label={u.langLabel}>
+  {
+    lang === 'pt' ? (
+      <a href={here} lang="pt-BR" hreflang="pt-BR" aria-current="true">PT</a>
+    ) : (
+      <a href={altHref} lang="pt-BR" hreflang="pt-BR">PT</a>
+    )
+  }
+  <span aria-hidden="true">|</span>
+  {
+    lang === 'en' ? (
+      <a href={here} lang="en" hreflang="en" aria-current="true">EN</a>
+    ) : (
+      <a href={altHref} lang="en" hreflang="en">EN</a>
+    )
+  }
+</div>

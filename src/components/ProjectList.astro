@@ -1,0 +1,40 @@
+---
+import Hashtag from './Hashtag.astro';
+interface Item {
+  year: number;
+  name: string;
+  summary?: string;
+  tags: string[];
+  href: string;
+  search: string;
+}
+interface Props {
+  items: Item[];
+}
+const { items } = Astro.props;
+const years = [...new Set(items.map((i) => i.year))].sort((a, b) => b - a);
+---
+
+<div class="plist">
+  {
+    years.map((y) => (
+      <>
+        <div class="plist__year" data-year-head={y}>
+          <span class="label label--muted">{y}</span>
+        </div>
+        {items
+          .filter((i) => i.year === y)
+          .map((i) => (
+            <a class="prow" href={i.href} data-year={y} data-tags={i.tags.join(' ')} data-search={i.search}>
+              <span class="meta">{i.year}</span>
+              <span>
+                <span class="prow__title">{i.name}</span>
+                {i.summary && <span class="prow__summary">{i.summary}</span>}
+              </span>
+              <div class="tags">{i.tags.map((t) => <Hashtag tag={t} />)}</div>
+            </a>
+          ))}
+      </>
+    ))
+  }
+</div>

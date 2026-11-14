@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import { t } from '../i18n/ui';
+const u = t('pt');
+---
+<Base lang="pt" title={u.notFound} altHref="/en/">
+  <section class="wrap hero">
+    <span class="label">404</span>
+    <h1>{u.notFound}</h1>
+    <p class="lead">{u.notFoundText}</p>
+    <div class="hero__actions"><Button variant="primary" href="/">Início</Button></div>
+  </section>
+</Base>

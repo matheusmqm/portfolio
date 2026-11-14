@@ -1,0 +1,36 @@
+---
+import Hashtag from './Hashtag.astro';
+import { Image } from 'astro:assets';
+interface Props {
+  year: number;
+  name: string;
+  summary?: string;
+  tags?: string[];
+  href: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  search?: string;
+}
+const { year, name, summary, tags = [], href, image, imageAlt = '', search = '' } = Astro.props;
+---
+
+<a class="card" href={href} data-year={year} data-tags={tags.join(' ')} data-search={search}>
+  {
+    image && (
+      <div class="card__media">
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[480, 800]}
+          sizes="(min-width: 900px) 360px, 100vw"
+          formats={['avif', 'webp']}
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+  <span class="meta">{year}</span>
+  <h3 class="card__title">{name}</h3>
+  {summary && <p class="card__summary">{summary}</p>}
+  {tags.length > 0 && <div class="tags card__tags">{tags.map((t) => <Hashtag tag={t} />)}</div>}
+</a>

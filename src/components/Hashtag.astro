@@ -1,0 +1,10 @@
+---
+// Vira <span> sem href (ou dentro de um card, que já é um link).
+interface Props {
+  tag: string;
+  href?: string;
+}
+const { tag, href } = Astro.props;
+---
+
+{href ? <a class="tag" href={href}>#{tag}</a> : <span class="tag">#{tag}</span>}

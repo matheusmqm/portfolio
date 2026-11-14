@@ -1,0 +1,29 @@
+{
+  "name": "SecondMind",
+  "year": 2026,
+  "status": { "pt": "Em desenvolvimento", "en": "In development" },
+  "summary": {
+    "pt": "Base de conhecimento com RAG e chatbot que responde com trechos dos seus próprios documentos.",
+    "en": "Knowledge base with RAG and a chatbot that answers with excerpts from your own documents."
+  },
+  "context": {
+    "pt": "Anotações, PDFs e artigos ficam espalhados e difíceis de reencontrar. O SecondMind reúne esses arquivos numa base única e responde perguntas citando de onde veio cada trecho.",
+    "en": "Notes, PDFs, and articles end up scattered and hard to find again. SecondMind gathers those files into a single base and answers questions by citing where each excerpt came from."
+  },
+  "did": [
+    {
+      "pt": "Leitura de vários formatos de arquivo e indexação por embeddings.",
+      "en": "Reading of several file formats and indexing with embeddings."
+    },
+    {
+      "pt": "Chatbot com RAG que mostra a fonte de cada resposta.",
+      "en": "RAG chatbot that shows the source of every answer."
+    },
+    {
+      "pt": "Interface web simples para enviar arquivos e conversar com a base.",
+      "en": "Simple web interface to upload files and chat with the base."
+    }
+  ],
+  "tags": ["rag", "python"],
+  "links": {}
+}

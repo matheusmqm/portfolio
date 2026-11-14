@@ -1,0 +1,90 @@
+/* matheus — generated from design/tokens.json. Não edite: rode `npm run tokens`. */
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/InstrumentSerif-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/InstrumentSerif-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("/fonts/HankenGrotesk-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #0a1128;
+  --surface: #111a3a;
+  --surface-hover: #16214a;
+  --border: #1e2a52;
+  --border-strong: #3a4a7a;
+  --control-border: #5b6b9c;
+  --text: #e8eeff;
+  --text-muted: #8a96bd;
+  --accent: #8ec5ff;
+  --accent-hover: #b3d9ff;
+  --accent-active: #6fb1f5;
+  --accent-soft: #8ec5ff1a;
+  --on-accent: #0a1128;
+  --focus-ring: var(--accent);
+  --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 144px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+  --container: 1120px;
+  --measure: 56ch;
+  --measure-lead: 46ch;
+  --bp-tablet: 900px;
+  --bp-mobile: 640px;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+  --duration-draw: 900ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-theme="light"] {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --surface-hover: #eef1f9;
+  --border: #dde2f0;
+  --border-strong: #aab3d0;
+  --control-border: #6f7ba3;
+  --text: #0a1128;
+  --text-muted: #4a567d;
+  --accent: #1a5fb4;
+  --accent-hover: #144b8f;
+  --accent-active: #0f3a70;
+  --accent-soft: #1a5fb41a;
+  --on-accent: #ffffff;
+  --focus-ring: var(--accent);
+}

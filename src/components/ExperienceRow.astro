@@ -1,0 +1,21 @@
+---
+import Hashtag from './Hashtag.astro';
+interface Props {
+  role: string;
+  org: string;
+  period: string;
+  results: string[];
+  stack: string[];
+}
+const { role, org, period, results, stack } = Astro.props;
+---
+
+<div class="exp">
+  <div class="exp__when"><span class="meta">{period}</span></div>
+  <div>
+    <h3 class="exp__role">{role}</h3>
+    <p class="exp__org">{org}</p>
+    <ul class="exp__list">{results.map((r) => <li>{r}</li>)}</ul>
+    <div class="tags">{stack.map((s) => <Hashtag tag={s} />)}</div>
+  </div>
+</div>
