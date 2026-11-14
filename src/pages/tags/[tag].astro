@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import TagView from '../../views/TagView.astro';
+
+export async function getStaticPaths() {
+  const all = await getCollection('projects');
+  const tags = [...new Set(all.flatMap((e) => e.data.tags))];
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag, entries: all.filter((e) => e.data.tags.includes(tag)) },
+  }));
+}
+const { tag, entries } = Astro.props;
+---
+<TagView lang="pt" tag={tag} entries={entries} />

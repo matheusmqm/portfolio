@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import HandCircle from '../components/HandCircle.astro';
+import Button from '../components/Button.astro';
+import ExperienceRow from '../components/ExperienceRow.astro';
+import FilterBar from '../components/FilterBar.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ProjectList from '../components/ProjectList.astro';
+import { t, paths, social, type Lang } from '../i18n/ui';
+import { experience, about } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const u = t(lang);
+const id = {
+  experience: lang === 'pt' ? 'experiencia' : 'experience',
+  projects: lang === 'pt' ? 'projetos' : 'projects',
+  about: lang === 'pt' ? 'sobre' : 'about',
+  contact: lang === 'pt' ? 'contato' : 'contact',
+};
+
+const entries = (await getCollection('projects')).sort(
+  (a, b) => b.data.year - a.data.year || a.data.name.localeCompare(b.data.name),
+);
+const items = entries.map((e) => ({
+  slug: e.id,
+  year: e.data.year,
+  name: e.data.name,
+  summary: e.data.summary?.[lang],
+  tags: e.data.tags,
+  href: paths.project(lang, e.id),
+  search: [e.data.name, e.data.summary?.[lang], ...e.data.tags].filter(Boolean).join(' ').toLowerCase(),
+}));
+const allTags = [...new Set(items.flatMap((i) => i.tags))].sort();
+const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
+---
+
+<Base lang={lang} altHref={altHref}>
+  <section class="wrap hero">
+    <span class="label">{u.heroLabel}</span>
+    <h1>
+      {u.heroBefore}{' '}<HandCircle kind="circle">{u.heroWord}</HandCircle>{u.heroAfter}
+    </h1>
+    <p class="lead">{u.heroLead}</p>
+    <div class="hero__actions">
+      <Button variant="primary" href={`#${id.projects}`}>{u.ctaProjects}</Button>
+      <Button variant="secondary" href={`#${id.contact}`}>{u.ctaContact}</Button>
+    </div>
+  </section>
+
+  <section class="section" id={id.experience} aria-labelledby={`${id.experience}-title`}>
+    <div class="wrap">
+      <div class="section__head"><h2 id={`${id.experience}-title`}>{u.experience}</h2></div>
+      {
+        experience.map((e) => (
+          <ExperienceRow
+            role={e.role[lang]}
+            org={e.org}
+            period={`${e.from[lang]} — ${e.to[lang]}`}
+            results={e.results[lang]}
+            stack={e.stack}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" id={id.projects} aria-labelledby={`${id.projects}-title`}>
+    <div class="wrap">
+      <div class="section__head"><h2 id={`${id.projects}-title`}>{u.projects}</h2></div>
+      <FilterBar lang={lang} tags={allTags} />
+      <div id="view-grid" class="grid">
+        {
+          items.map((i) => (
+            <ProjectCard year={i.year} name={i.name} summary={i.summary} tags={i.tags} href={i.href} search={i.search} />
+          ))
+        }
+      </div>
+      <div id="view-list" hidden>
+        <ProjectList items={items} />
+      </div>
+      <p class="empty" id="no-results" role="status" hidden>{u.noResults}</p>
+    </div>
+  </section>
+
+  <section class="section" id={id.about} aria-labelledby={`${id.about}-title`}>
+    <div class="wrap">
+      <div class="section__head"><h2 id={`${id.about}-title`}>{u.about}</h2></div>
+      <div class="about">
+        <div class="prose">{about.text[lang].map((p) => <p>{p}</p>)}</div>
+        <dl class="facts">
+          {
+            about.facts.map((f) => (
+              <div>
+                <dt class="label label--muted">{u[f.key]}</dt>
+                <dd>{f.value[lang]}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id={id.contact} aria-labelledby={`${id.contact}-title`}>
+    <div class="wrap">
+      <h2 id={`${id.contact}-title`}>{u.contactTitle}</h2>
+      <div class="contact__links">
+        <Button variant="link" class="contact__email" href={`mailto:${social.email}`}>{social.email}</Button>
+        <Button variant="link" href={social.github}>{u.github}</Button>
+        <Button variant="link" href={social.linkedin}>{u.linkedin}</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script is:inline>
+  // Melhoria progressiva: busca, filtro por hashtag e grade/lista. Sem JS os chips são links.
+  (function () {
+    var chips = document.querySelectorAll('#filter-chips [data-tag]');
+    var input = document.getElementById('project-search');
+    var field = document.getElementById('search-field');
+    var toggle = document.getElementById('view-toggle');
+    var grid = document.getElementById('view-grid');
+    var list = document.getElementById('view-list');
+    var none = document.getElementById('no-results');
+    var state = { tag: '', q: '', view: 'grid' };
+    field.hidden = false;
+    toggle.hidden = false;
+    var kbd = document.getElementById('search-kbd');
+    if (/Mac|iPhone|iPad/.test(navigator.platform)) kbd.textContent = '⌘ K';
+    function apply() {
+      var shown = 0;
+      document.querySelectorAll('[data-tags]').forEach(function (el) {
+        var tags = ' ' + el.getAttribute('data-tags') + ' ';
+        var ok = (!state.tag || tags.indexOf(' ' + state.tag + ' ') > -1) && (!state.q || el.getAttribute('data-search').indexOf(state.q) > -1);
+        el.hidden = !ok;
+        if (ok && el.offsetParent !== null) shown++;
+      });
+      document.querySelectorAll('[data-year-head]').forEach(function (h) {
+        var any = list.querySelector('.prow[data-year="' + h.getAttribute('data-year-head') + '"]:not([hidden])');
+        h.hidden = !any;
+      });
+      grid.hidden = state.view !== 'grid';
+      list.hidden = state.view !== 'list';
+      shown = (state.view === 'grid' ? grid : list).querySelectorAll('[data-tags]:not([hidden])').length;
+      none.hidden = shown > 0;
+    }
+    chips.forEach(function (c) {
+      c.setAttribute('role', 'button');
+      c.setAttribute('aria-pressed', c.getAttribute('aria-current') === 'true' ? 'true' : 'false');
+      c.removeAttribute('aria-current');
+      c.addEventListener('click', function (e) {
+        e.preventDefault();
+        state.tag = c.getAttribute('data-tag');
+        chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+        apply();
+      });
+      c.addEventListener('keydown', function (e) { if (e.key === ' ') { e.preventDefault(); c.click(); } });
+    });
+    input.addEventListener('input', function () { state.q = input.value.trim().toLowerCase(); apply(); });
+    toggle.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.view = b.getAttribute('data-view');
+        toggle.querySelectorAll('button').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+        apply();
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); input.select(); }
+    });
+    apply();
+  })();
+</script>

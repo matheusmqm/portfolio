@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** Mesma página no outro idioma. */
+  altHref: string;
+  current?: 'projects' | 'experience' | 'contact';
+}
+const { lang, title, description, altHref, current } = Astro.props;
+const u = t(lang);
+const pageTitle = title ? `${title} — Matheus` : u.siteTitle;
+const desc = description ?? u.siteDescription;
+const ptHref = lang === 'pt' ? Astro.url.pathname : altHref;
+const enHref = lang === 'en' ? Astro.url.pathname : altHref;
+const base = Astro.site ?? Astro.url.origin;
+const abs = (p: string) => new URL(p, base).href;
+---
+
+<!doctype html>
+<html lang={u.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+    <meta name="theme-color" content="#0a1128" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
+    <link rel="alternate" hreflang="pt-BR" href={abs(ptHref)} />
+    <link rel="alternate" hreflang="en" href={abs(enHref)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/InstrumentSerif-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/InstrumentSerif-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/HankenGrotesk-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">{u.skip}</a>
+    <div class="page">
+      <TopBar lang={lang} altHref={altHref} current={current} />
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+      <Footer lang={lang} altHref={altHref} />
+    </div>
+  </body>
+</html>

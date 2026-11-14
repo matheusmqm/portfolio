@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import HandCircle from '../components/HandCircle.astro';
+import Hashtag from '../components/Hashtag.astro';
+import { t, paths, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  entry: CollectionEntry<'projects'>;
+}
+const { lang, entry } = Astro.props;
+const u = t(lang);
+const d = entry.data;
+const other: Lang = lang === 'pt' ? 'en' : 'pt';
+const hasBody = d.context || (d.did && d.did.length > 0);
+---
+
+<Base
+  lang={lang}
+  title={d.name}
+  description={d.summary?.[lang]}
+  altHref={paths.project(other, entry.id)}
+  current="projects"
+>
+  <div class="wrap">
+    <a class="link back meta" href={paths.section(lang, 'projetos')}>{u.back}</a>
+    <section class="pj-head">
+      <span class="label">{u.project} · {d.year}</span>
+      <h1><HandCircle kind="underline">{d.name}</HandCircle></h1>
+      {d.summary && <p class="lead">{d.summary[lang]}</p>}
+    </section>
+    <div class="pj-grid">
+      <div>
+        {
+          d.context && (
+            <div class="pj-block">
+              <h2>{u.context}</h2>
+              <div class="prose">
+                <p>{d.context[lang]}</p>
+              </div>
+            </div>
+          )
+        }
+        {
+          d.did && d.did.length > 0 && (
+            <div class="pj-block">
+              <h2>{u.did}</h2>
+              <ul>{d.did.map((x) => <li>{x[lang]}</li>)}</ul>
+            </div>
+          )
+        }
+        {!hasBody && <p class="muted">{u.noSummary}</p>}
+      </div>
+      <aside class="pj-side">
+        <div><span class="label label--muted">{u.year}</span><span>{d.year}</span></div>
+        {d.status && <div><span class="label label--muted">{u.status}</span><span>{d.status[lang]}</span></div>}
+        {
+          d.tags.length > 0 && (
+            <div>
+              <span class="label label--muted">{u.stack}</span>
+              <div class="tags">{d.tags.map((tag) => <Hashtag tag={tag} href={paths.tag(lang, tag)} />)}</div>
+            </div>
+          )
+        }
+        {
+          (d.links.repo || d.links.demo) && (
+            <div>
+              <span class="label label--muted">{u.links}</span>
+              {d.links.repo && <a class="btn btn--link" href={d.links.repo}>{u.repo}</a>}
+              {d.links.demo && <a class="btn btn--link" href={d.links.demo}>{u.demo}</a>}
+            </div>
+          )
+        }
+      </aside>
+    </div>
+    {
+      d.images.length > 0 && (
+        <div class="shots">
+          {d.images.map((im) => (
+            <figure class="shot">
+              <div class="shot__img">
+                <img src={im.src} alt={im.alt[lang]} loading="lazy" width="1600" height="1000" />
+              </div>
+              {im.caption && <figcaption>{im.caption[lang]}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</Base>

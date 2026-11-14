@@ -1,0 +1,22 @@
+---
+import LangSwitch from './LangSwitch.astro';
+import { t, social, type Lang } from '../i18n/ui';
+interface Props {
+  lang: Lang;
+  altHref: string;
+}
+const { lang, altHref } = Astro.props;
+const u = t(lang);
+---
+
+<footer class="footer">
+  <div class="wrap footer__row">
+    <span class="meta">{u.rights}</span>
+    <div class="footer__links">
+      <a class="link" href={social.github}>{u.github}</a>
+      <a class="link" href={social.linkedin}>{u.linkedin}</a>
+      <a class="link" href={`mailto:${social.email}`}>{u.email}</a>
+    </div>
+    <LangSwitch lang={lang} altHref={altHref} />
+  </div>
+</footer>

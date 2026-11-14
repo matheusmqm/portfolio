@@ -1,0 +1,11 @@
+@import './tokens.css';
+@import './components.css';
+
+/* Link de pular para o conteúdo: visível só com foco. */
+.skip { position: absolute; left: var(--space-5); top: -100px; z-index: 10; padding: var(--space-3) var(--space-4); background: var(--accent); color: var(--on-accent); font: 500 13px/16px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; border-radius: var(--radius-md); text-decoration: none; }
+.skip:focus { top: var(--space-3); }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.empty { padding-block: var(--space-7); color: var(--text-muted); }
+html { scroll-behavior: smooth; scroll-padding-top: var(--space-6); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
