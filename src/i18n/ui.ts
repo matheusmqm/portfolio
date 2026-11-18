@@ -51,6 +51,11 @@ export const ui = {
     rights: '© 2026 Matheus',
     skills: 'Habilidades',
     skillsTitle: 'Habilidades',
+    aboutTitle: 'Sobre',
+    about: [
+      'Sou Software Engineer e estudante de Engenharia de Computação no IFCE. Desenvolvo aplicações full-stack, automações, ETL e Engenharia de IA.',
+      'Gosto de construir soluções que vão além de funcionar: código limpo e testável, arquitetura pensada para ser mantida e escalar, e sistemas confiáveis que outras pessoas consigam entender e evoluir. Busco aplicar boas práticas de engenharia de software e de design de sistemas em tudo o que desenvolvo, do banco de dados à API e à interface, sempre com foco em impacto real para quem usa.',
+    ],
     basedIn: 'Mora em',
     now: 'Agora',
     degree: 'Formação',
@@ -108,6 +113,11 @@ export const ui = {
     rights: '© 2026 Matheus',
     skills: 'Skills',
     skillsTitle: 'Skills',
+    aboutTitle: 'About',
+    about: [
+      'I am a Software Engineer and a Computer Engineering student at IFCE. I build full-stack applications, automations, ETL and AI engineering.',
+      'I like building solutions that go beyond just working: clean, testable code, architecture designed to be maintained and to scale, and reliable systems that other people can understand and evolve. I apply software engineering and system design best practices to everything I build, from the database to the API and the interface, always focused on real impact for the people who use it.',
+    ],
     basedIn: 'Based in',
     now: 'Now',
     degree: 'Degree',
