@@ -1,0 +1,27 @@
+---
+import type { Skill } from '../data/site';
+interface Props {
+  title: string;
+  items: Skill[];
+}
+const { title, items } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<div class="skillgroup">
+  <h3 class="skillgroup__title">{title}</h3>
+  <ul class="skillgroup__list">
+    {
+      items.map((s) => (
+        <li class="skill">
+          {s.icon ? (
+            <span class="skill__icon" style={`--icon:url(${base}/icons/${s.icon}.svg)`} aria-hidden="true" />
+          ) : (
+            <span class="skill__icon skill__icon--none" aria-hidden="true">{s.name.slice(0, 2)}</span>
+          )}
+          <span class="skill__name">{s.name}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
