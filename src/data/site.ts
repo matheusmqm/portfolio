@@ -52,40 +52,59 @@ export const profile: ProfileFact[] = [
   },
 ];
 
-/** `icon` é o slug do Simple Icons; sem ele, a skill aparece só com o texto. */
+/**
+ * `icon`: 'slug' do Simple Icons ou 'conjunto:nome' (logos:, lucide:). Rode `npm run icons` ao mudar.
+ * Todo item precisa de ícone; para coisas sem logo, use um ícone genérico do Lucide.
+ */
 export interface Skill {
   name: string;
-  icon?: string;
+  icon: string;
 }
 export interface SkillGroup {
   title: L;
   items: Skill[];
 }
 
-/** PROVISÓRIO: montado a partir da stack da experiência e das tags dos projetos. Revise. */
+/** Nome do arquivo em public/icons/ para um `icon`. */
+export const iconFile = (icon: string) => `${icon.replace(':', '-')}.svg`;
+
 export const skills: SkillGroup[] = [
   {
     title: { pt: 'Linguagens', en: 'Languages' },
-    items: [{ name: 'Python', icon: 'python' }, { name: 'SQL' }],
-  },
-  {
-    title: { pt: 'Dados e backend', en: 'Data and backend' },
     items: [
-      { name: 'pandas', icon: 'pandas' },
-      { name: 'PostgreSQL', icon: 'postgresql' },
-      { name: 'FastAPI', icon: 'fastapi' },
-      { name: 'Playwright' },
-      { name: 'RAG' },
+      { name: 'Python', icon: 'python' },
+      { name: 'SQL', icon: 'lucide:database' },
+      { name: 'Rust', icon: 'rust' },
+      { name: 'C', icon: 'c' },
+      { name: 'C++', icon: 'cplusplus' },
+      { name: 'JavaScript', icon: 'javascript' },
+      { name: 'TypeScript', icon: 'typescript' },
     ],
   },
   {
-    title: { pt: 'Ferramentas e nuvem', en: 'Tools and cloud' },
+    title: { pt: 'Dados e back-end', en: 'Data and backend' },
     items: [
-      { name: 'React', icon: 'react' },
-      { name: 'AWS Lambda' },
-      { name: 'Amazon S3' },
+      { name: 'pandas', icon: 'pandas' },
+      { name: 'NumPy', icon: 'numpy' },
+      { name: 'SQLAlchemy', icon: 'sqlalchemy' },
+      { name: 'DuckDB', icon: 'duckdb' },
+      { name: 'PostgreSQL', icon: 'postgresql' },
+      { name: 'FastAPI', icon: 'fastapi' },
+      { name: 'Playwright', icon: 'logos:playwright' },
+      { name: 'RAG', icon: 'lucide:book-search' },
+    ],
+  },
+  {
+    title: { pt: 'Ferramentas', en: 'Tools' },
+    items: [
+      { name: 'AWS', icon: 'logos:aws' },
       { name: 'Git', icon: 'git' },
+      { name: 'GitHub', icon: 'github' },
       { name: 'Docker', icon: 'docker' },
+      { name: 'CLI', icon: 'lucide:terminal' },
+      { name: 'Claude Code', icon: 'claudecode' },
+      { name: 'Notion', icon: 'notion' },
+      { name: 'Obsidian', icon: 'obsidian' },
     ],
   },
 ];
@@ -97,7 +116,7 @@ export const skills: SkillGroup[] = [
  */
 export const tech: Record<string, { label: string; icon?: string }> = {
   python: { label: 'Python', icon: 'python' },
-  llm: { label: 'LLM' },
-  rag: { label: 'RAG' },
-  stockfish: { label: 'Stockfish' },
+  llm: { label: 'LLM', icon: 'lucide:brain' },
+  rag: { label: 'RAG', icon: 'lucide:book-search' },
+  stockfish: { label: 'Stockfish', icon: 'lucide:chess-knight' },
 };

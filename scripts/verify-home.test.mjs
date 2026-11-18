@@ -8,11 +8,17 @@ const projects = readdirSync('src/data/projects')
   .map((f) => JSON.parse(readFileSync(`src/data/projects/${f}`, 'utf8')));
 
 const pages = {
-  pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades' },
-  en: { html: readFileSync('dist/en/index.html', 'utf8'), skills: 'skills' },
+  pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades', heading: 'Com o que eu trabalho' },
+  en: { html: readFileSync('dist/en/index.html', 'utf8'), skills: 'skills', heading: 'What I work with' },
 };
 
-for (const [lang, { html, skills }] of Object.entries(pages)) {
+const expectedSkills = [
+  ['Python', 'SQL', 'Rust', 'C', 'C++', 'JavaScript', 'TypeScript'],
+  ['pandas', 'NumPy', 'SQLAlchemy', 'DuckDB', 'PostgreSQL', 'FastAPI', 'Playwright', 'RAG'],
+  ['AWS', 'Git', 'GitHub', 'Docker', 'CLI', 'Claude Code', 'Notion', 'Obsidian'],
+];
+
+for (const [lang, { html, skills, heading }] of Object.entries(pages)) {
   test(`${lang}: seção de skills existe e a de sobre não`, () => {
     assert.match(html, new RegExp(`id="${skills}"`));
     assert.doesNotMatch(html, /id="(sobre|about)"/);
@@ -31,11 +37,16 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     assert.doesNotMatch(html, /class="about"/);
   });
 
-  test(`${lang}: skills têm 3 grupos e todo ícone referenciado existe`, () => {
+  test(`${lang}: seção "${heading}" tem os 3 grupos pedidos, cada skill com ícone`, () => {
     const section = html.match(new RegExp(`<section[^>]*id="${skills}"[^]*?</section>`))?.[0] ?? '';
-    assert.equal((section.match(/<h3/g) ?? []).length, 3);
+    assert.match(section, new RegExp(`<h2[^>]*>${heading}</h2>`));
+    const groups = section.match(/<div class="skillgroup">[^]*?<\/ul><\/div>/g) ?? [];
+    assert.equal(groups.length, 3);
+    const names = groups.map((g) => [...g.matchAll(/<span class="skill__name">([^<]+)</g)].map((m) => m[1]));
+    assert.deepEqual(names, expectedSkills);
+    assert.doesNotMatch(section, /skill__icon--none/, 'skill sem ícone (iniciais)');
     const icons = [...section.matchAll(/url\(([^)]*\/icons\/[^)]+\.svg)\)/g)].map((m) => m[1]);
-    assert.ok(icons.length > 0, 'deve haver ao menos um ícone');
+    assert.equal(icons.length, expectedSkills.flat().length, 'todo item deve ter ícone');
     for (const url of icons) assert.ok(existsSync('public' + url.slice(url.indexOf('/icons/'))), `ícone ausente: ${url}`);
   });
 

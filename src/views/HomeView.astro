@@ -62,7 +62,7 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
 
   <section class="section" id={id.skills} aria-labelledby={`${id.skills}-title`}>
     <div class="wrap">
-      <div class="section__head"><h2 id={`${id.skills}-title`}>{u.skills}</h2></div>
+      <div class="section__head"><h2 id={`${id.skills}-title`}>{u.skillsTitle}</h2></div>
       <div class="skills">
         {skills.map((g) => <SkillGroup title={g.title[lang]} items={g.items} />)}
       </div>
