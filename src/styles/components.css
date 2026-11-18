@@ -153,7 +153,8 @@ a.tag:is(:active,.is-active), button.tag:is(:active,.is-active) { color: var(--a
 
 /* linhas numeradas (visualização padrão) */
 .rows { border-top: 1px solid var(--text); }
-.row { display: grid; grid-template-columns: 72px minmax(0, 1fr) 176px; column-gap: var(--space-5); padding-block: var(--space-6); border-bottom: 1px solid var(--border); }
+.row { display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: var(--space-5); padding-block: var(--space-6); border-bottom: 1px solid var(--border); }
+.row--has-thumb { grid-template-columns: 72px minmax(0, 1fr) 176px; }
 .row__num { grid-row: 1; font: 400 40px/44px var(--font-serif); color: var(--accent); }
 .row__body { grid-column: 2; display: grid; gap: var(--space-2); align-content: start; min-width: 0; }
 .row__title { font: 400 28px/34px var(--font-serif); letter-spacing: -0.005em; overflow-wrap: anywhere; }
