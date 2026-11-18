@@ -7,7 +7,7 @@ import Button from '../components/Button.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import FilterBar from '../components/FilterBar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import ProjectList from '../components/ProjectList.astro';
+import ProjectRow from '../components/ProjectRow.astro';
 import { t, paths, social, type Lang } from '../i18n/ui';
 import SkillGroup from '../components/SkillGroup.astro';
 import { experience, skills } from '../data/site';
@@ -31,7 +31,10 @@ const items = entries.map((e) => ({
   slug: e.id,
   year: e.data.year,
   name: e.data.name,
+  status: e.data.status?.[lang],
   summary: e.data.summary?.[lang],
+  context: e.data.context?.[lang],
+  thumb: e.data.images[0]?.src,
   tags: e.data.tags,
   href: paths.project(lang, e.id),
   search: [e.data.name, e.data.summary?.[lang], ...e.data.tags].filter(Boolean).join(' ').toLowerCase(),
@@ -88,15 +91,19 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
     <div class="wrap">
       <div class="section__head"><h2 id={`${id.projects}-title`}>{u.projects}</h2></div>
       <FilterBar lang={lang} tags={allTags} />
-      <div id="view-grid" class="grid">
+      <div id="view-list" class="rows">
+        {
+          items.map((i, n) => (
+            <ProjectRow lang={lang} index={n} name={i.name} year={i.year} status={i.status} summary={i.summary} context={i.context} tags={i.tags} thumb={i.thumb} href={i.href} search={i.search} />
+          ))
+        }
+      </div>
+      <div id="view-grid" class="grid" hidden>
         {
           items.map((i) => (
             <ProjectCard year={i.year} name={i.name} summary={i.summary} tags={i.tags} href={i.href} search={i.search} />
           ))
         }
-      </div>
-      <div id="view-list" hidden>
-        <ProjectList items={items} />
       </div>
       <p class="empty" id="no-results" role="status" hidden>{u.noResults}</p>
     </div>
@@ -124,7 +131,7 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
     var grid = document.getElementById('view-grid');
     var list = document.getElementById('view-list');
     var none = document.getElementById('no-results');
-    var state = { tag: '', q: '', view: 'grid' };
+    var state = { tag: '', q: '', view: 'list' };
     field.hidden = false;
     toggle.hidden = false;
     var kbd = document.getElementById('search-kbd');
@@ -136,10 +143,6 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
         var ok = (!state.tag || tags.indexOf(' ' + state.tag + ' ') > -1) && (!state.q || el.getAttribute('data-search').indexOf(state.q) > -1);
         el.hidden = !ok;
         if (ok && el.offsetParent !== null) shown++;
-      });
-      document.querySelectorAll('[data-year-head]').forEach(function (h) {
-        var any = list.querySelector('.prow[data-year="' + h.getAttribute('data-year-head') + '"]:not([hidden])');
-        h.hidden = !any;
       });
       grid.hidden = state.view !== 'grid';
       list.hidden = state.view !== 'list';
