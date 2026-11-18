@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import HandCircle from '../components/HandCircle.astro';
+import ProfileCard from '../components/ProfileCard.astro';
 import Button from '../components/Button.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import FilterBar from '../components/FilterBar.astro';
@@ -40,14 +41,19 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
 
 <Base lang={lang} altHref={altHref}>
   <section class="wrap hero">
-    <span class="label">{u.heroLabel}</span>
-    <h1>
-      {u.heroBefore}{' '}<HandCircle kind="circle">{u.heroWord}</HandCircle>{u.heroAfter}
-    </h1>
-    <p class="lead">{u.heroLead}</p>
-    <div class="hero__actions">
-      <Button variant="primary" href={`#${id.projects}`}>{u.ctaProjects}</Button>
-      <Button variant="secondary" href={`#${id.contact}`}>{u.ctaContact}</Button>
+    <div class="hero__grid">
+      <div class="hero__main">
+        <span class="label">{u.heroLabel}</span>
+        <h1>
+          {u.heroBefore}{' '}<HandCircle kind="circle">{u.heroWord}</HandCircle>{u.heroAfter}
+        </h1>
+        <p class="lead">{u.heroLead}</p>
+        <div class="hero__actions">
+          <Button variant="primary" href={`#${id.projects}`}>{u.ctaProjects}</Button>
+          <Button variant="secondary" href={`#${id.contact}`}>{u.ctaContact}</Button>
+        </div>
+      </div>
+      <ProfileCard lang={lang} />
     </div>
   </section>
 
