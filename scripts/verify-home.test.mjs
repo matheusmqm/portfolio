@@ -75,3 +75,12 @@ test('coluna de miniatura só é reservada quando a linha tem miniatura', () => 
   assert.match(css, /^\.row--has-thumb \{[^}]*176px/m);
   assert.match(readFileSync('src/components/ProjectRow.astro', 'utf8'), /row--has-thumb/);
 });
+
+test('título do hero usa a fonte larga Playfair Display, com arquivo local', () => {
+  const tokens = readFileSync('src/styles/tokens.css', 'utf8');
+  assert.match(tokens, /font-family: "Playfair Display"/);
+  assert.match(tokens, /--font-display: "Playfair Display"/);
+  assert.ok(existsSync('public/fonts/PlayfairDisplay-Variable.woff2'));
+  const hero = readFileSync('src/styles/components.css', 'utf8').match(/^\.hero h1 \{[^}]*\}/m)?.[0] ?? '';
+  assert.match(hero, /var\(--font-display\)/);
+});
