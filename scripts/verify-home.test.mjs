@@ -43,4 +43,11 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     assert.match(rows[0], /row__num[^>]*>01</);
     assert.doesNotMatch(html, /undefined/);
   });
+
+  test(`${lang}: contato em faixa com kicker e e-mail grande; rodapé presente`, () => {
+    const contact = html.match(/<section[^>]*class="[^"]*contact[^"]*"[^]*?<\/section>/)?.[0] ?? '';
+    assert.match(contact, /class="label contact__kicker"/);
+    assert.match(contact, /href="mailto:[^"]+"[^>]*>[^<]*contact__email|contact__email[^>]*href="mailto:/);
+    assert.match(html, /<footer[^]*?©/);
+  });
 }

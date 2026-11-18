@@ -172,9 +172,11 @@ a.tag:is(:active,.is-active), button.tag:is(:active,.is-active) { color: var(--a
 .photo { aspect-ratio: 4 / 5; width: 200px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface); margin-bottom: var(--space-6); object-fit: cover; }
 
 /* ---------- contato e rodapé ---------- */
-.contact h2 { font: 400 56px/58px var(--font-serif); letter-spacing: -0.02em; max-width: 14ch; margin-bottom: var(--space-6); }
+.contact { background: var(--surface); border-top: 1px solid var(--border); }
+.contact__kicker { display: block; margin-bottom: var(--space-5); }
+.contact h2 { font: 400 40px/44px var(--font-serif); letter-spacing: -0.01em; margin-bottom: var(--space-5); }
+.contact .contact__email { display: inline-block; max-width: 100%; text-transform: none; letter-spacing: -0.02em; font: 400 clamp(28px, 6vw, 56px)/1.15 var(--font-serif); overflow-wrap: anywhere; margin-bottom: var(--space-7); }
 .contact__links { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); }
-.contact__links .contact__email { text-transform: none; letter-spacing: 0.02em; font-size: 15px; }
 .footer { border-top: 1px solid var(--border); padding-block: var(--space-5) var(--space-7); }
 .footer__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-4); }
 .footer__links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); font: 500 12px/16px var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; }
@@ -223,7 +225,7 @@ a.tag:is(:active,.is-active), button.tag:is(:active,.is-active) { color: var(--a
   .row__num { font-size: 28px; line-height: 34px; }
   .row__thumb { grid-column: 2; grid-row: auto; width: 100%; height: auto; aspect-ratio: 16 / 10; margin-top: var(--space-4); }
   .profile div { grid-template-columns: 1fr; gap: var(--space-1); }
-  .contact h2 { font-size: 40px; line-height: 44px; }
+  .contact h2 { font-size: 32px; line-height: 36px; }
   .pj-head h1 { font-size: 44px; line-height: 46px; }
   .pj-grid { grid-template-columns: 1fr; }
   .shots { grid-template-columns: 1fr; }

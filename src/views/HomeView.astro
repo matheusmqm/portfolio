@@ -111,9 +111,10 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
 
   <section class="section contact" id={id.contact} aria-labelledby={`${id.contact}-title`}>
     <div class="wrap">
+      <span class="label contact__kicker">{u.contactKicker}</span>
       <h2 id={`${id.contact}-title`}>{u.contactTitle}</h2>
+      <Button variant="link" class="contact__email" href={`mailto:${social.email}`}>{social.email}</Button>
       <div class="contact__links">
-        <Button variant="link" class="contact__email" href={`mailto:${social.email}`}>{social.email}</Button>
         <Button variant="link" href={social.github}>{u.github}</Button>
         <Button variant="link" href={social.linkedin}>{u.linkedin}</Button>
       </div>
