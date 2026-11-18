@@ -1,0 +1,41 @@
+---
+import Hashtag from './Hashtag.astro';
+import { t, type Lang } from '../i18n/ui';
+interface Props {
+  lang: Lang;
+  index: number;
+  name: string;
+  year: number;
+  status?: string;
+  summary?: string;
+  context?: string;
+  tags: string[];
+  thumb?: string;
+  href: string;
+  search: string;
+}
+const { lang, index, name, year, status, summary, context, tags, thumb, href, search } = Astro.props;
+const u = t(lang);
+const num = String(index + 1).padStart(2, '0');
+const meta = [year, status].filter(Boolean).join(' · ');
+---
+
+<article class="row" data-tags={tags.join(' ')} data-search={search}>
+  <span class="row__num" aria-hidden="true">{num}</span>
+  <div class="row__body">
+    <h3 class="row__title">{name}</h3>
+    {summary && <p class="row__summary">{summary}</p>}
+    <div class="row__meta">
+      <span class="meta">{meta}</span>
+      {tags.length > 0 && <div class="tags">{tags.map((tg) => <Hashtag tag={tg} />)}</div>}
+    </div>
+  </div>
+  {thumb && <img class="row__thumb" src={thumb} alt="" loading="lazy" width="176" height="110" />}
+  <details class="row__more">
+    <summary>{u.details}</summary>
+    <div class="row__detail">
+      {context && <p>{context}</p>}
+      <a class="link" href={href}>{u.viewProject}</a>
+    </div>
+  </details>
+</article>
