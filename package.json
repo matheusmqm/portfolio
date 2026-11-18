@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "tokens": "node scripts/build-tokens.mjs",
     "build": "node scripts/build-tokens.mjs && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "node --test \"scripts/*.test.mjs\""
   },
   "dependencies": {
     "astro": "^7.4.12"

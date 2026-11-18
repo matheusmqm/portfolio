@@ -8,7 +8,7 @@ import FilterBar from '../components/FilterBar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ProjectList from '../components/ProjectList.astro';
 import { t, paths, social, type Lang } from '../i18n/ui';
-import { experience, about } from '../data/site';
+import { experience } from '../data/site';
 
 interface Props {
   lang: Lang;
@@ -18,7 +18,7 @@ const u = t(lang);
 const id = {
   experience: lang === 'pt' ? 'experiencia' : 'experience',
   projects: lang === 'pt' ? 'projetos' : 'projects',
-  about: lang === 'pt' ? 'sobre' : 'about',
+  skills: lang === 'pt' ? 'habilidades' : 'skills',
   contact: lang === 'pt' ? 'contato' : 'contact',
 };
 
@@ -83,25 +83,6 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
         <ProjectList items={items} />
       </div>
       <p class="empty" id="no-results" role="status" hidden>{u.noResults}</p>
-    </div>
-  </section>
-
-  <section class="section" id={id.about} aria-labelledby={`${id.about}-title`}>
-    <div class="wrap">
-      <div class="section__head"><h2 id={`${id.about}-title`}>{u.about}</h2></div>
-      <div class="about">
-        <div class="prose">{about.text[lang].map((p) => <p>{p}</p>)}</div>
-        <dl class="facts">
-          {
-            about.facts.map((f) => (
-              <div>
-                <dt class="label label--muted">{u[f.key]}</dt>
-                <dd>{f.value[lang]}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
     </div>
   </section>
 
