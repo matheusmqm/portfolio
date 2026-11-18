@@ -20,4 +20,10 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     assert.ok(hrefs.length >= 4, 'nav deve ter projetos, experiência, habilidades e contato');
     for (const id of hrefs) assert.match(html, new RegExp(`id="${id}"`), `falta id="${id}"`);
   });
+
+  test(`${lang}: hero tem a ficha com 4 itens e não há bloco "about"`, () => {
+    const profile = html.match(/<dl class="profile"[\s\S]*?<\/dl>/)?.[0] ?? '';
+    assert.equal((profile.match(/<dt/g) ?? []).length, 4);
+    assert.doesNotMatch(html, /class="about"/);
+  });
 }
