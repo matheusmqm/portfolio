@@ -1,14 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import HandCircle from '../components/HandCircle.astro';
 import ProfileCard from '../components/ProfileCard.astro';
 import Button from '../components/Button.astro';
 import ExperienceRow from '../components/ExperienceRow.astro';
 import FilterBar from '../components/FilterBar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ProjectRow from '../components/ProjectRow.astro';
-import { t, paths, social, type Lang } from '../i18n/ui';
+import { t, paths, social, owner, type Lang } from '../i18n/ui';
 import SkillGroup from '../components/SkillGroup.astro';
 import { experience, skills } from '../data/site';
 
@@ -48,10 +47,7 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
     <div class="hero__grid">
       <div class="hero__main">
         <span class="label">{u.heroLabel}</span>
-        <h1>
-          {u.heroBefore}{' '}<HandCircle kind="circle">{u.heroWord}</HandCircle>{u.heroAfter}
-        </h1>
-        <p class="lead">{u.heroLead}</p>
+        <h1>{owner}</h1>
         <div class="hero__actions">
           <Button variant="primary" href={`#${id.projects}`}>{u.ctaProjects}</Button>
           <Button variant="secondary" href={`#${id.contact}`}>{u.ctaContact}</Button>

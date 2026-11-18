@@ -89,7 +89,7 @@ a.tag:is(:active,.is-active), button.tag:is(:active,.is-active) { color: var(--a
 /* ---------- hero ---------- */
 .hero { padding-top: var(--space-10); padding-bottom: var(--space-9); }
 .hero .label { margin-bottom: var(--space-6); display: block; }
-.hero h1 { font: 400 80px/78px var(--font-serif); letter-spacing: -0.02em; max-width: 13ch; margin-bottom: var(--space-6); text-wrap: balance; }
+.hero h1 { font: 400 80px/78px var(--font-serif); letter-spacing: -0.02em; max-width: 9ch; margin-bottom: var(--space-6); text-wrap: balance; }
 .hero .lead { margin-bottom: var(--space-7); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .hero__grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--space-9); align-items: start; }
