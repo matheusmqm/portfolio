@@ -8,8 +8,8 @@ const projects = readdirSync('src/data/projects')
   .map((f) => JSON.parse(readFileSync(`src/data/projects/${f}`, 'utf8')));
 
 const pages = {
-  pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades', heading: 'Com o que eu trabalho' },
-  en: { html: readFileSync('dist/en/index.html', 'utf8'), skills: 'skills', heading: 'What I work with' },
+  pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades', heading: 'Habilidades' },
+  en: { html: readFileSync('dist/en/index.html', 'utf8'), skills: 'skills', heading: 'Skills' },
 };
 
 const expectedSkills = [
@@ -104,11 +104,11 @@ test('coluna de miniatura só é reservada quando a linha tem miniatura', () => 
   assert.match(readFileSync('src/components/ProjectRow.astro', 'utf8'), /row--has-thumb/);
 });
 
-test('título do hero usa a fonte larga Playfair Display, com arquivo local', () => {
+test('título do hero usa a Newsreader e Crimson Pro, com arquivo local', () => {
   const tokens = readFileSync('src/styles/tokens.css', 'utf8');
-  assert.match(tokens, /font-family: "Playfair Display"/);
-  assert.match(tokens, /--font-display: "Playfair Display"/);
-  assert.ok(existsSync('public/fonts/PlayfairDisplay-Variable.woff2'));
+  assert.match(tokens, /font-family: "Newsreader"/);
+  assert.match(tokens, /--font-display: "Newsreader"/);
+  assert.ok(existsSync('public/fonts/Newsreader-Variable.woff2'));
   const hero = readFileSync('src/styles/components.css', 'utf8').match(/^\.hero h1 \{[^}]*\}/m)?.[0] ?? '';
   assert.match(hero, /var\(--font-display\)/);
 });

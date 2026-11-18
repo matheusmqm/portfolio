@@ -1,15 +1,29 @@
 /* matheus — generated from design/tokens.json. Não edite: rode `npm run tokens`. */
 @font-face {
-  font-family: "Instrument Serif";
-  src: url("/fonts/InstrumentSerif-Regular.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Newsreader";
+  src: url("/fonts/Newsreader-Variable.woff2") format("woff2");
+  font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Instrument Serif";
-  src: url("/fonts/InstrumentSerif-Italic.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Newsreader";
+  src: url("/fonts/Newsreader-Italic-Variable.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/CrimsonPro-Variable.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/CrimsonPro-Italic-Variable.woff2") format("woff2");
+  font-weight: 200 900;
   font-style: italic;
   font-display: swap;
 }
@@ -17,13 +31,6 @@
   font-family: "Hanken Grotesk";
   src: url("/fonts/HankenGrotesk-Variable.woff2") format("woff2");
   font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Playfair Display";
-  src: url("/fonts/PlayfairDisplay-Variable.woff2") format("woff2");
-  font-weight: 400 900;
   font-style: normal;
   font-display: swap;
 }
@@ -53,8 +60,8 @@
   --inverse: #000000;
   --on-inverse: #ffffff;
   --on-inverse-muted: #a3a3a3;
-  --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --font-display: "Playfair Display", "Instrument Serif", Georgia, serif;
+  --font-serif: "Crimson Pro", Georgia, serif;
+  --font-display: "Newsreader", Georgia, serif;
   --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --space-1: 4px;
