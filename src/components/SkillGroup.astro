@@ -1,5 +1,5 @@
 ---
-import type { Skill } from '../data/site';
+import { iconFile, type Skill } from '../data/site';
 interface Props {
   title: string;
   items: Skill[];
@@ -14,11 +14,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     {
       items.map((s) => (
         <li class="skill">
-          {s.icon ? (
-            <span class="skill__icon" style={`--icon:url(${base}/icons/${s.icon}.svg)`} aria-hidden="true" />
-          ) : (
-            <span class="skill__icon skill__icon--none" aria-hidden="true">{s.name.slice(0, 2)}</span>
-          )}
+          <span class="skill__icon" style={`--icon:url(${base}/icons/${iconFile(s.icon)})`} aria-hidden="true" />
           <span class="skill__name">{s.name}</span>
         </li>
       ))
