@@ -55,7 +55,9 @@ export const ui = {
     degree: 'Formação',
     focus: 'Foco',
     details: 'Detalhes',
-    viewProject: 'Ver projeto',
+    viewProject: 'Ver página do projeto',
+    hide: 'Ocultar',
+    viewOnGithub: 'Ver no GitHub',
     contactKicker: 'Contato',
   },
   en: {
@@ -109,7 +111,9 @@ export const ui = {
     degree: 'Degree',
     focus: 'Focus',
     details: 'Details',
-    viewProject: 'View project',
+    viewProject: 'View project page',
+    hide: 'Hide',
+    viewOnGithub: 'View on GitHub',
     contactKicker: 'Contact',
   },
 } as const;

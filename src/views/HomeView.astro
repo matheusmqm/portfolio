@@ -33,7 +33,10 @@ const items = entries.map((e) => ({
   status: e.data.status?.[lang],
   summary: e.data.summary?.[lang],
   context: e.data.context?.[lang],
-  thumb: e.data.images[0]?.src,
+  did: e.data.did?.map((d) => d[lang]) ?? [],
+  images: e.data.images.map((im) => ({ src: im.src, alt: im.alt[lang], caption: im.caption?.[lang] })),
+  repo: e.data.links.repo,
+  demo: e.data.links.demo,
   tags: e.data.tags,
   href: paths.project(lang, e.id),
   search: [e.data.name, e.data.summary?.[lang], ...e.data.tags].filter(Boolean).join(' ').toLowerCase(),
@@ -90,7 +93,7 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
       <div id="view-list" class="rows">
         {
           items.map((i, n) => (
-            <ProjectRow lang={lang} index={n} name={i.name} year={i.year} status={i.status} summary={i.summary} context={i.context} tags={i.tags} thumb={i.thumb} href={i.href} search={i.search} />
+            <ProjectRow lang={lang} index={n} slug={i.slug} name={i.name} year={i.year} status={i.status} summary={i.summary} context={i.context} did={i.did} tags={i.tags} images={i.images} repo={i.repo} demo={i.demo} href={i.href} search={i.search} />
           ))
         }
       </div>
@@ -168,6 +171,19 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
     });
     document.addEventListener('keydown', function (e) {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); input.select(); }
+    });
+    // Detalhes: sem JS o painel fica aberto; com JS começa fechado e o botão aparece.
+    document.querySelectorAll('.row__toggle').forEach(function (b) {
+      var panel = document.getElementById(b.getAttribute('aria-controls'));
+      var label = b.querySelector('.row__toggle-label');
+      b.hidden = false;
+      panel.hidden = true;
+      b.addEventListener('click', function () {
+        var open = b.getAttribute('aria-expanded') !== 'true';
+        b.setAttribute('aria-expanded', open ? 'true' : 'false');
+        panel.hidden = !open;
+        label.textContent = open ? b.getAttribute('data-open') : b.getAttribute('data-closed');
+      });
     });
     apply();
   })();
