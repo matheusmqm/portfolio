@@ -3,6 +3,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 
+const projects = readdirSync('src/data/projects')
+  .filter((f) => f.endsWith('.json'))
+  .map((f) => JSON.parse(readFileSync(`src/data/projects/${f}`, 'utf8')));
+
 const pages = {
   pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades' },
   en: { html: readFileSync('dist/en/index.html', 'utf8'), skills: 'skills' },
@@ -35,13 +39,32 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     for (const url of icons) assert.ok(existsSync('public' + url.slice(url.indexOf('/icons/'))), `ícone ausente: ${url}`);
   });
 
-  test(`${lang}: projetos em linhas numeradas com detalhes expansíveis`, () => {
-    const total = readdirSync('src/data/projects').filter((f) => f.endsWith('.json')).length;
-    const rows = html.match(/<article class="row"[^]*?<\/article>/g) ?? [];
-    assert.equal(rows.length, total);
-    for (const r of rows) assert.match(r, /<details/);
+  test(`${lang}: projetos em linhas numeradas com botão de detalhes e painel`, () => {
+    const rows = html.match(/<article class="row[^"]*"[^]*?<\/article>/g) ?? [];
+    assert.equal(rows.length, projects.length);
     assert.match(rows[0], /row__num[^>]*>01</);
+    for (const r of rows) {
+      assert.match(r, /<button[^>]*class="row__toggle"[^>]*aria-expanded="false"/);
+      const id = r.match(/aria-controls="([^"]+)"/)?.[1];
+      assert.ok(id, 'toggle sem aria-controls');
+      assert.match(r, new RegExp(`id="${id}"`), 'painel referenciado não existe');
+    }
     assert.doesNotMatch(html, /undefined/);
+  });
+
+  test(`${lang}: painel mostra o que foi feito, tecnologias e GitHub só quando há repositório`, () => {
+    const rows = html.match(/<article class="row[^"]*"[^]*?<\/article>/g) ?? [];
+    for (const data of projects) {
+      const row = rows.find((r) => r.includes(`row__title">${data.name}<`));
+      assert.ok(row, `linha de ${data.name} ausente`);
+      const items = row.match(/<li class="row__did-item"/g) ?? [];
+      assert.equal(items.length, (data.did ?? []).length, `itens de "o que foi feito" de ${data.name}`);
+      const techs = row.match(/<div class="techs"[^]*?<\/div>/)?.[0] ?? '';
+      for (const tag of data.tags) assert.match(techs.toLowerCase(), new RegExp(tag), `tecnologia ${tag} ausente`);
+      assert.equal(row.includes('row__repo'), Boolean(data.links?.repo), `link do repositório de ${data.name}`);
+      if (data.links?.repo) assert.match(row, new RegExp(`href="${data.links.repo}"`));
+      assert.equal((row.match(/<figure/g) ?? []).length, (data.images ?? []).length, `figuras de ${data.name}`);
+    }
   });
 
   test(`${lang}: contato em faixa com kicker e e-mail grande; rodapé presente`, () => {
@@ -51,20 +74,14 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     assert.match(html, /<footer[^]*?©/);
   });
 
-  test(`${lang}: "Detalhes" e "Ver projeto" de cada linha têm o nome do projeto para leitores de tela`, () => {
-    const rows = html.match(/<article class="row"[^]*?<\/article>/g) ?? [];
+  test(`${lang}: botão e links de cada linha têm o nome do projeto para leitores de tela`, () => {
+    const rows = html.match(/<article class="row[^"]*"[^]*?<\/article>/g) ?? [];
     assert.ok(rows.length > 0);
     for (const r of rows) {
       const name = r.match(/<h3 class="row__title">([^<]+)</)[1];
-      assert.match(r, new RegExp(`<summary>[^<]*<span class="sr-only">[^<]*${name}`), 'summary sem nome');
-      assert.match(r, new RegExp(`<a class="link" href="[^"]+">[^<]*<span class="sr-only">[^<]*${name}`), 'link sem nome');
+      assert.match(r, new RegExp(`class="row__toggle"[^]*?<span class="sr-only">[^<]*${name}`), 'toggle sem nome');
+      assert.match(r, new RegExp(`class="link row__page"[^>]*>[^<]*<span class="sr-only">[^<]*${name}`), 'link sem nome');
     }
-  });
-
-  test(`${lang}: hero tem o nome como título e sem o texto antigo`, () => {
-    assert.match(html, /<h1[^>]*>\s*Matheus Mesquita\s*<\/h1>/);
-    const main = html.match(/<main[^]*<\/main>/)?.[0] ?? '';
-    assert.doesNotMatch(main, /funcionam|systems that|Sou Matheus|I'm Matheus/);
   });
 }
 

@@ -89,3 +89,15 @@ export const skills: SkillGroup[] = [
     ],
   },
 ];
+
+/**
+ * Tecnologias dos projetos, indexadas pela tag do JSON do projeto.
+ * `icon` é o slug do Simple Icons (rode `npm run icons` depois de adicionar um).
+ * Tag fora desta lista aparece com o próprio texto e sem ícone.
+ */
+export const tech: Record<string, { label: string; icon?: string }> = {
+  python: { label: 'Python', icon: 'python' },
+  llm: { label: 'LLM' },
+  rag: { label: 'RAG' },
+  stockfish: { label: 'Stockfish' },
+};

@@ -1,23 +1,36 @@
 ---
-import Hashtag from './Hashtag.astro';
+import TechBadge from './TechBadge.astro';
 import { t, type Lang } from '../i18n/ui';
+interface Image {
+  src: string;
+  alt: string;
+  caption?: string;
+}
 interface Props {
   lang: Lang;
   index: number;
+  slug: string;
   name: string;
   year: number;
   status?: string;
   summary?: string;
   context?: string;
+  did: string[];
   tags: string[];
-  thumb?: string;
+  images: Image[];
+  repo?: string;
+  demo?: string;
   href: string;
   search: string;
 }
-const { lang, index, name, year, status, summary, context, tags, thumb, href, search } = Astro.props;
+const { lang, index, slug, name, year, status, summary, context, did, tags, images, repo, demo, href, search } =
+  Astro.props;
 const u = t(lang);
 const num = String(index + 1).padStart(2, '0');
 const meta = [year, status].filter(Boolean).join(' · ');
+const thumb = images[0]?.src;
+const [hero, ...rest] = images;
+const panelId = `proj-${slug}`;
 ---
 
 <article class:list={['row', thumb && 'row--has-thumb']} data-tags={tags.join(' ')} data-search={search}>
@@ -27,15 +40,79 @@ const meta = [year, status].filter(Boolean).join(' · ');
     {summary && <p class="row__summary">{summary}</p>}
     <div class="row__meta">
       <span class="meta">{meta}</span>
-      {tags.length > 0 && <div class="tags">{tags.map((tg) => <Hashtag tag={tg} />)}</div>}
+      {tags.length > 0 && <div class="row__tech">{tags.map((tg) => <TechBadge tag={tg} />)}</div>}
     </div>
   </div>
   {thumb && <img class="row__thumb" src={thumb} alt="" loading="lazy" width="176" height="110" />}
-  <details class="row__more">
-    <summary>{u.details}<span class="sr-only"> {name}</span></summary>
-    <div class="row__detail">
-      {context && <p>{context}</p>}
-      <a class="link" href={href}>{u.viewProject}<span class="sr-only"> {name}</span></a>
+  <button
+    type="button"
+    class="row__toggle"
+    aria-expanded="false"
+    aria-controls={panelId}
+    data-open={u.hide}
+    data-closed={u.details}
+    hidden
+  >
+    <span class="row__toggle-label">{u.details}</span><span class="sr-only"> {name}</span>
+  </button>
+  <div class="row__panel" id={panelId}>
+    <div class="row__cols">
+      {
+        did.length > 0 && (
+          <div class="row__did">
+            <span class="label">{u.did}</span>
+            <ul class="row__did-list">{did.map((d) => <li class="row__did-item">{d}</li>)}</ul>
+          </div>
+        )
+      }
+      <div class="row__side">
+        {
+          context && (
+            <div>
+              <span class="label">{u.context}</span>
+              <p>{context}</p>
+            </div>
+          )
+        }
+        {tags.length > 0 && <div class="techs">{tags.map((tg) => <TechBadge tag={tg} label />)}</div>}
+        <div class="row__links">
+          {
+            repo && (
+              <a class="link row__repo" href={repo} target="_blank" rel="noopener noreferrer">
+                {u.viewOnGithub} ↗<span class="sr-only"> {name}</span>
+              </a>
+            )
+          }
+          {
+            demo && (
+              <a class="link row__demo" href={demo} target="_blank" rel="noopener noreferrer">
+                {u.demo} ↗<span class="sr-only"> {name}</span>
+              </a>
+            )
+          }
+          <a class="link row__page" href={href}>{u.viewProject}<span class="sr-only"> {name}</span></a>
+        </div>
+        {
+          hero && (
+            <figure class="row__fig">
+              <img src={hero.src} alt={hero.alt} loading="lazy" width="1600" height="1000" />
+              {hero.caption && <figcaption>{hero.caption}</figcaption>}
+            </figure>
+          )
+        }
+      </div>
     </div>
-  </details>
+    {
+      rest.length > 0 && (
+        <div class="row__gallery">
+          {rest.map((im) => (
+            <figure class="row__fig">
+              <img src={im.src} alt={im.alt} loading="lazy" width="1600" height="1000" />
+              {im.caption && <figcaption>{im.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )
+    }
+  </div>
 </article>
