@@ -60,6 +60,12 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
       assert.match(r, new RegExp(`<a class="link" href="[^"]+">[^<]*<span class="sr-only">[^<]*${name}`), 'link sem nome');
     }
   });
+
+  test(`${lang}: hero tem o nome como título e sem o texto antigo`, () => {
+    assert.match(html, /<h1[^>]*>\s*Matheus Mesquita\s*<\/h1>/);
+    const main = html.match(/<main[^]*<\/main>/)?.[0] ?? '';
+    assert.doesNotMatch(main, /funcionam|systems that|Sou Matheus|I'm Matheus/);
+  });
 }
 
 test('coluna de miniatura só é reservada quando a linha tem miniatura', () => {

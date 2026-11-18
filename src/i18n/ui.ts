@@ -14,11 +14,6 @@ export const ui = {
     langLabel: 'Idioma',
     nav: { projects: 'Projetos', experience: 'Experiência', skills: 'Habilidades', contact: 'Contato' },
     heroLabel: 'Software Engineer · Fortaleza',
-    heroBefore: 'Automação, dados e sistemas que',
-    heroWord: 'funcionam',
-    heroAfter: '.',
-    heroLead:
-      'Sou Matheus, estudante de Engenharia da Computação no IFCE. Trabalho com automação de backend no BTG Pactual e estudo engenharia de dados e finanças quantitativas.',
     ctaProjects: 'Ver projetos',
     ctaContact: 'Contato',
     experience: 'Experiência',
@@ -73,11 +68,6 @@ export const ui = {
     langLabel: 'Language',
     nav: { projects: 'Projects', experience: 'Experience', skills: 'Skills', contact: 'Contact' },
     heroLabel: 'Software Engineer · Fortaleza',
-    heroBefore: 'Automation, data, and systems that',
-    heroWord: 'work',
-    heroAfter: '.',
-    heroLead:
-      "I'm Matheus, a Computer Engineering student at IFCE. I build backend automation at BTG Pactual and study data engineering and quantitative finance.",
     ctaProjects: 'View projects',
     ctaContact: 'Contact',
     experience: 'Experience',
@@ -141,6 +131,8 @@ export const paths = {
     return `${paths.home(l)}#${map[id]}`;
   },
 };
+
+export const owner = 'Matheus Mesquita';
 
 export const social = {
   github: 'https://github.com/matheusmqm',
