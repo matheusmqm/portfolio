@@ -8,8 +8,8 @@ const projects = readdirSync('src/data/projects')
   .map((f) => JSON.parse(readFileSync(`src/data/projects/${f}`, 'utf8')));
 
 const pages = {
-  pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades', heading: 'Habilidades' },
-  en: { html: readFileSync('dist/en/index.html', 'utf8'), skills: 'skills', heading: 'Skills' },
+  pt: { html: readFileSync('dist/index.html', 'utf8'), about: 'sobre', skills: 'habilidades', heading: 'Habilidades' },
+  en: { html: readFileSync('dist/en/index.html', 'utf8'), about: 'about', skills: 'skills', heading: 'Skills' },
 };
 
 const expectedSkills = [
@@ -18,10 +18,13 @@ const expectedSkills = [
   ['AWS', 'Git', 'GitHub', 'Docker', 'CLI', 'Claude Code', 'Notion', 'Obsidian'],
 ];
 
-for (const [lang, { html, skills, heading }] of Object.entries(pages)) {
-  test(`${lang}: seção de skills existe e a de sobre não`, () => {
-    assert.match(html, new RegExp(`id="${skills}"`));
-    assert.doesNotMatch(html, /id="(sobre|about)"/);
+for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
+  test(`${lang}: seção sobre vem entre o nome e as habilidades, com os 2 parágrafos`, () => {
+    const a = html.indexOf(`id="${about}"`), k = html.indexOf(`id="${skills}"`);
+    assert.ok(a > html.indexOf('<h1') && a < k, 'sobre deve ficar entre o nome e as habilidades');
+    const section = html.match(new RegExp(`<section[^>]*id="${about}"[^]*?</section>`))[0];
+    assert.equal((section.match(/<p>/g) ?? []).length, 2);
+    assert.match(section, lang === 'pt' ? /Sou Software Engineer e estudante de Engenharia de Computação no IFCE/ : /I am a Software Engineer/);
   });
 
   test(`${lang}: links da navegação apontam para ids existentes`, () => {
@@ -31,10 +34,9 @@ for (const [lang, { html, skills, heading }] of Object.entries(pages)) {
     for (const id of hrefs) assert.match(html, new RegExp(`id="${id}"`), `falta id="${id}"`);
   });
 
-  test(`${lang}: hero tem a ficha com 4 itens e não há bloco "about"`, () => {
+  test(`${lang}: hero tem a ficha com 4 itens`, () => {
     const profile = html.match(/<dl class="profile"[\s\S]*?<\/dl>/)?.[0] ?? '';
     assert.equal((profile.match(/<dt/g) ?? []).length, 4);
-    assert.doesNotMatch(html, /class="about"/);
   });
 
   test(`${lang}: seção "${heading}" tem os 3 grupos pedidos, cada skill com ícone`, () => {
