@@ -50,4 +50,22 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     assert.match(contact, /href="mailto:[^"]+"[^>]*>[^<]*contact__email|contact__email[^>]*href="mailto:/);
     assert.match(html, /<footer[^]*?©/);
   });
+
+  test(`${lang}: "Detalhes" e "Ver projeto" de cada linha têm o nome do projeto para leitores de tela`, () => {
+    const rows = html.match(/<article class="row"[^]*?<\/article>/g) ?? [];
+    assert.ok(rows.length > 0);
+    for (const r of rows) {
+      const name = r.match(/<h3 class="row__title">([^<]+)</)[1];
+      assert.match(r, new RegExp(`<summary>[^<]*<span class="sr-only">[^<]*${name}`), 'summary sem nome');
+      assert.match(r, new RegExp(`<a class="link" href="[^"]+">[^<]*<span class="sr-only">[^<]*${name}`), 'link sem nome');
+    }
+  });
 }
+
+test('coluna de miniatura só é reservada quando a linha tem miniatura', () => {
+  const css = readFileSync('src/styles/components.css', 'utf8');
+  const base = css.match(/^\.row \{[^}]*\}/m)?.[0] ?? '';
+  assert.doesNotMatch(base, /176px/, '.row não deve reservar 176px sem miniatura');
+  assert.match(css, /^\.row--has-thumb \{[^}]*176px/m);
+  assert.match(readFileSync('src/components/ProjectRow.astro', 'utf8'), /row--has-thumb/);
+});

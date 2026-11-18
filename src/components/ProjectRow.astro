@@ -20,7 +20,7 @@ const num = String(index + 1).padStart(2, '0');
 const meta = [year, status].filter(Boolean).join(' · ');
 ---
 
-<article class="row" data-tags={tags.join(' ')} data-search={search}>
+<article class:list={['row', thumb && 'row--has-thumb']} data-tags={tags.join(' ')} data-search={search}>
   <span class="row__num" aria-hidden="true">{num}</span>
   <div class="row__body">
     <h3 class="row__title">{name}</h3>
@@ -32,10 +32,10 @@ const meta = [year, status].filter(Boolean).join(' · ');
   </div>
   {thumb && <img class="row__thumb" src={thumb} alt="" loading="lazy" width="176" height="110" />}
   <details class="row__more">
-    <summary>{u.details}</summary>
+    <summary>{u.details}<span class="sr-only"> {name}</span></summary>
     <div class="row__detail">
       {context && <p>{context}</p>}
-      <a class="link" href={href}>{u.viewProject}</a>
+      <a class="link" href={href}>{u.viewProject}<span class="sr-only"> {name}</span></a>
     </div>
   </details>
 </article>
