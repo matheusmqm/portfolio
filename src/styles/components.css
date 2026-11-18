@@ -1,6 +1,6 @@
 /* matheus — componentes. Só usa tokens; zero valor solto de cor. */
 *, *::before, *::after { box-sizing: border-box; }
-html { color-scheme: dark; }
+html { color-scheme: light; }
 [data-theme="light"] { color-scheme: light; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 16px; line-height: 26px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: var(--accent); color: var(--on-accent); }
@@ -190,7 +190,7 @@ a.tag:is(:active,.is-active), button.tag:is(:active,.is-active) { color: var(--a
 .photo { aspect-ratio: 4 / 5; width: 200px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface); margin-bottom: var(--space-6); object-fit: cover; }
 
 /* ---------- contato e rodapé ---------- */
-.contact { background: var(--surface); border-top: 1px solid var(--border); }
+.contact { background: var(--inverse); color: var(--on-inverse); --text: var(--on-inverse); --text-muted: var(--on-inverse-muted); --accent: var(--on-inverse); --accent-hover: var(--on-inverse-muted); --accent-active: var(--on-inverse-muted); --control-border: var(--on-inverse-muted); --focus-ring: var(--on-inverse); }
 .contact__kicker { display: block; margin-bottom: var(--space-5); }
 .contact h2 { font: 400 40px/44px var(--font-serif); letter-spacing: -0.01em; margin-bottom: var(--space-5); }
 .contact .contact__email { display: inline-block; max-width: 100%; text-transform: none; letter-spacing: -0.02em; font: 400 clamp(28px, 6vw, 56px)/1.15 var(--font-serif); overflow-wrap: anywhere; margin-bottom: var(--space-7); }
