@@ -9,7 +9,8 @@ import FilterBar from '../components/FilterBar.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ProjectList from '../components/ProjectList.astro';
 import { t, paths, social, type Lang } from '../i18n/ui';
-import { experience } from '../data/site';
+import SkillGroup from '../components/SkillGroup.astro';
+import { experience, skills } from '../data/site';
 
 interface Props {
   lang: Lang;
@@ -54,6 +55,15 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
         </div>
       </div>
       <ProfileCard lang={lang} />
+    </div>
+  </section>
+
+  <section class="section" id={id.skills} aria-labelledby={`${id.skills}-title`}>
+    <div class="wrap">
+      <div class="section__head"><h2 id={`${id.skills}-title`}>{u.skills}</h2></div>
+      <div class="skills">
+        {skills.map((g) => <SkillGroup title={g.title[lang]} items={g.items} />)}
+      </div>
     </div>
   </section>
 

@@ -1,7 +1,7 @@
 // Valida a estrutura da home gerada em dist/. Rode `npm run build` antes.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 
 const pages = {
   pt: { html: readFileSync('dist/index.html', 'utf8'), skills: 'habilidades' },
@@ -25,5 +25,13 @@ for (const [lang, { html, skills }] of Object.entries(pages)) {
     const profile = html.match(/<dl class="profile"[\s\S]*?<\/dl>/)?.[0] ?? '';
     assert.equal((profile.match(/<dt/g) ?? []).length, 4);
     assert.doesNotMatch(html, /class="about"/);
+  });
+
+  test(`${lang}: skills têm 3 grupos e todo ícone referenciado existe`, () => {
+    const section = html.match(new RegExp(`<section[^>]*id="${skills}"[^]*?</section>`))?.[0] ?? '';
+    assert.equal((section.match(/<h3/g) ?? []).length, 3);
+    const icons = [...section.matchAll(/url\(([^)]*\/icons\/[^)]+\.svg)\)/g)].map((m) => m[1]);
+    assert.ok(icons.length > 0, 'deve haver ao menos um ícone');
+    for (const url of icons) assert.ok(existsSync('public' + url.slice(url.indexOf('/icons/'))), `ícone ausente: ${url}`);
   });
 }
