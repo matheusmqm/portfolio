@@ -3,7 +3,7 @@ import LangSwitch from './LangSwitch.astro';
 import { t, paths, type Lang } from '../i18n/ui';
 interface Props {
   lang: Lang;
-  current?: 'projects' | 'experience' | 'contact';
+  current?: 'projects' | 'experience' | 'skills' | 'contact';
   altHref: string;
 }
 const { lang, current, altHref } = Astro.props;
@@ -11,6 +11,7 @@ const u = t(lang);
 const items = [
   { key: 'projects', href: paths.section(lang, 'projetos') },
   { key: 'experience', href: paths.section(lang, 'experiencia') },
+  { key: 'skills', href: paths.section(lang, 'habilidades') },
   { key: 'contact', href: paths.section(lang, 'contato') },
 ] as const;
 ---

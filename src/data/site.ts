@@ -34,32 +34,58 @@ export const experience: Experience[] = [
   },
 ];
 
-export const about: {
-  text: L<string[]>;
-  facts: { key: 'formation' | 'languages' | 'interests'; value: L }[];
-} = {
-  text: {
-    pt: [
-      'Estudo Engenharia da Computação no IFCE, em Fortaleza, e trabalho com automação no BTG Pactual.',
-      'Gosto de sistemas que resolvem um problema real, de dados bem tratados e de finanças quantitativas.',
-    ],
-    en: [
-      'I study Computer Engineering at IFCE in Fortaleza and work on automation at BTG Pactual.',
-      'I like systems that solve a real problem, well-handled data, and quantitative finance.',
+export interface ProfileFact {
+  key: 'basedIn' | 'now' | 'degree' | 'focus';
+  value: L;
+}
+
+export const profile: ProfileFact[] = [
+  { key: 'basedIn', value: { pt: 'Fortaleza, CE, Brasil', en: 'Fortaleza, CE, Brazil' } },
+  { key: 'now', value: { pt: 'Automation Developer, BTG Pactual', en: 'Automation Developer, BTG Pactual' } },
+  { key: 'degree', value: { pt: 'Engenharia da Computação, IFCE', en: 'Computer Engineering, IFCE' } },
+  {
+    key: 'focus',
+    value: {
+      pt: 'Automação, engenharia de dados, finanças quantitativas',
+      en: 'Automation, data engineering, quantitative finance',
+    },
+  },
+];
+
+/** `icon` é o slug do Simple Icons; sem ele, a skill aparece só com o texto. */
+export interface Skill {
+  name: string;
+  icon?: string;
+}
+export interface SkillGroup {
+  title: L;
+  items: Skill[];
+}
+
+/** PROVISÓRIO: montado a partir da stack da experiência e das tags dos projetos. Revise. */
+export const skills: SkillGroup[] = [
+  {
+    title: { pt: 'Linguagens', en: 'Languages' },
+    items: [{ name: 'Python', icon: 'python' }, { name: 'SQL' }],
+  },
+  {
+    title: { pt: 'Dados e backend', en: 'Data and backend' },
+    items: [
+      { name: 'pandas', icon: 'pandas' },
+      { name: 'PostgreSQL', icon: 'postgresql' },
+      { name: 'FastAPI', icon: 'fastapi' },
+      { name: 'Playwright', icon: 'playwright' },
+      { name: 'RAG' },
     ],
   },
-  facts: [
-    {
-      key: 'formation',
-      value: { pt: 'Engenharia da Computação, IFCE · 2025–2029', en: 'Computer Engineering, IFCE · 2025–2029' },
-    },
-    { key: 'languages', value: { pt: 'Português e inglês', en: 'Portuguese and English' } },
-    {
-      key: 'interests',
-      value: {
-        pt: 'Automação, engenharia de dados, finanças quantitativas',
-        en: 'Automation, data engineering, quantitative finance',
-      },
-    },
-  ],
-};
+  {
+    title: { pt: 'Ferramentas e nuvem', en: 'Tools and cloud' },
+    items: [
+      { name: 'React', icon: 'react' },
+      { name: 'AWS Lambda', icon: 'awslambda' },
+      { name: 'Amazon S3', icon: 'amazons3' },
+      { name: 'Git', icon: 'git' },
+      { name: 'Docker', icon: 'docker' },
+    ],
+  },
+];
