@@ -1,15 +1,29 @@
 /* matheus — generated from design/tokens.json. Não edite: rode `npm run tokens`. */
 @font-face {
-  font-family: "Instrument Serif";
-  src: url("/fonts/InstrumentSerif-Regular.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Newsreader";
+  src: url("/fonts/Newsreader-Variable.woff2") format("woff2");
+  font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Instrument Serif";
-  src: url("/fonts/InstrumentSerif-Italic.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Newsreader";
+  src: url("/fonts/Newsreader-Italic-Variable.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/CrimsonPro-Variable.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/CrimsonPro-Italic-Variable.woff2") format("woff2");
+  font-weight: 200 900;
   font-style: italic;
   font-display: swap;
 }
@@ -29,21 +43,25 @@
 }
 
 :root {
-  --bg: #0a1128;
-  --surface: #111a3a;
-  --surface-hover: #16214a;
-  --border: #1e2a52;
-  --border-strong: #3a4a7a;
-  --control-border: #5b6b9c;
-  --text: #e8eeff;
-  --text-muted: #8a96bd;
-  --accent: #8ec5ff;
-  --accent-hover: #b3d9ff;
-  --accent-active: #6fb1f5;
-  --accent-soft: #8ec5ff1a;
-  --on-accent: #0a1128;
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-hover: #f2f2f2;
+  --border: #e5e5e5;
+  --border-strong: #a3a3a3;
+  --control-border: #737373;
+  --text: #000000;
+  --text-muted: #595959;
+  --accent: #000000;
+  --accent-hover: #404040;
+  --accent-active: #262626;
+  --accent-soft: #0000000d;
+  --on-accent: #ffffff;
   --focus-ring: var(--accent);
-  --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --inverse: #000000;
+  --on-inverse: #ffffff;
+  --on-inverse-muted: #a3a3a3;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-display: "Newsreader", Georgia, serif;
   --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --space-1: 4px;
@@ -73,18 +91,21 @@
 }
 
 [data-theme="light"] {
-  --bg: #f6f7fb;
-  --surface: #ffffff;
-  --surface-hover: #eef1f9;
-  --border: #dde2f0;
-  --border-strong: #aab3d0;
-  --control-border: #6f7ba3;
-  --text: #0a1128;
-  --text-muted: #4a567d;
-  --accent: #1a5fb4;
-  --accent-hover: #144b8f;
-  --accent-active: #0f3a70;
-  --accent-soft: #1a5fb41a;
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-hover: #f2f2f2;
+  --border: #e5e5e5;
+  --border-strong: #a3a3a3;
+  --control-border: #737373;
+  --text: #000000;
+  --text-muted: #595959;
+  --accent: #000000;
+  --accent-hover: #404040;
+  --accent-active: #262626;
+  --accent-soft: #0000000d;
   --on-accent: #ffffff;
   --focus-ring: var(--accent);
+  --inverse: #000000;
+  --on-inverse: #ffffff;
+  --on-inverse-muted: #a3a3a3;
 }
