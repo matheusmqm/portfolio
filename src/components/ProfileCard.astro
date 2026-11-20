@@ -1,19 +1,17 @@
 ---
 import { social, t, type Lang } from '../i18n/ui';
-import { profile } from '../data/site';
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const u = t(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <aside class="profile-card">
-  <ul class="profile">
-    {profile.map((f) => <li>{f[lang]}</li>)}
-  </ul>
   <div class="profile__links">
     <a class="link" href={social.github}>{u.github}</a>
     <a class="link" href={social.linkedin}>{u.linkedin}</a>
+    <a class="link" href={`${base}/${social.resume[lang]}`} download>{u.resume}</a>
   </div>
 </aside>

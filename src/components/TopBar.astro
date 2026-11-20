@@ -18,18 +18,15 @@ const items = [
 
 <header class="wrap">
   <div class="topbar">
-    <a class="topbar__brand" href={paths.home(lang)}>matheus</a>
-    <div class="topbar__right">
-      <nav class="nav" aria-label={u.navLabel}>
-        {
-          items.map((i) => (
-            <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>
-              {u.nav[i.key]}
-            </a>
-          ))
-        }
-      </nav>
-      <LangSwitch lang={lang} altHref={altHref} />
-    </div>
+    <nav class="nav" aria-label={u.navLabel}>
+      {
+        items.map((i) => (
+          <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>
+            {u.nav[i.key]}
+          </a>
+        ))
+      }
+    </nav>
+    <LangSwitch lang={lang} altHref={altHref} />
   </div>
 </header>
