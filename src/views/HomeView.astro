@@ -52,6 +52,7 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
       <div class="hero__main">
         <span class="label">{u.heroLabel}</span>
         <h1>{owner}</h1>
+        <p class="lead hero__lead">{u.about[0]}</p>
         <div class="hero__actions">
           <Button variant="primary" href={`#${id.projects}`}>{u.ctaProjects}</Button>
           <Button variant="secondary" href={`#${id.contact}`}>{u.ctaContact}</Button>
@@ -59,14 +60,8 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
       </div>
       <ProfileCard lang={lang} />
     </div>
-  </section>
-
-  <section class="section" id={id.about} aria-labelledby={`${id.about}-title`}>
-    <div class="wrap">
-      <div class="section__head"><h2 id={`${id.about}-title`}>{u.aboutTitle}</h2></div>
-      <div class="about">
-        {u.about.map((para) => <p>{para}</p>)}
-      </div>
+    <div class="hero__statement" id={id.about}>
+      <p>{u.about[1]}</p>
     </div>
   </section>
 
@@ -87,7 +82,9 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
           <ExperienceRow
             role={e.role[lang]}
             org={e.org}
-            period={`${e.from[lang]} — ${e.to[lang]}`}
+            from={e.from[lang]}
+            to={e.to[lang]}
+            duration={lang === 'pt' ? `${e.months} meses` : `${e.months} months`}
             results={e.results[lang]}
             stack={e.stack}
           />
