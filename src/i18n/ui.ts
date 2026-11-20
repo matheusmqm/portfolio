@@ -6,14 +6,14 @@ export const languages: Lang[] = ['pt', 'en'];
 export const ui = {
   pt: {
     htmlLang: 'pt-BR',
-    siteTitle: 'Matheus — Software Engineer em Fortaleza',
+    siteTitle: 'Matheus — Software Engineer no Brasil',
     siteDescription:
-      'Portfólio de Matheus, Software Engineer em Fortaleza: automação, engenharia de dados e sistemas que funcionam.',
+      'Portfólio de Matheus, Software Engineer no Brasil: automação, engenharia de dados e sistemas que funcionam.',
     skip: 'Pular para o conteúdo',
     navLabel: 'Principal',
     langLabel: 'Idioma',
     nav: { projects: 'Projetos', experience: 'Experiência', skills: 'Habilidades', contact: 'Contato' },
-    heroLabel: 'Software Engineer · Fortaleza',
+    heroLabel: 'Software Engineer · Brasil',
     ctaProjects: 'Ver projetos',
     ctaContact: 'Contato',
     experience: 'Experiência',
@@ -47,6 +47,7 @@ export const ui = {
     present: 'hoje',
     github: 'GitHub',
     linkedin: 'LinkedIn',
+    resume: 'Currículo (PDF)',
     email: 'E-mail',
     rights: '© 2026 Matheus',
     skills: 'Habilidades',
@@ -57,21 +58,20 @@ export const ui = {
       'Gosto de construir soluções que vão além de funcionar: código limpo e testável, arquitetura pensada para ser mantida e escalar, e sistemas confiáveis que outras pessoas consigam entender e evoluir. Busco aplicar boas práticas de engenharia de software e de design de sistemas em tudo o que desenvolvo, do banco de dados à API e à interface, sempre com foco em impacto real para quem usa.',
     ],
     details: 'Detalhes',
-    viewProject: 'Ver página do projeto',
     hide: 'Ocultar',
     viewOnGithub: 'Ver no GitHub',
     contactKicker: 'Contato',
   },
   en: {
     htmlLang: 'en',
-    siteTitle: 'Matheus — Software Engineer in Fortaleza',
+    siteTitle: 'Matheus — Software Engineer in Brazil',
     siteDescription:
-      'Portfolio of Matheus, a Software Engineer in Fortaleza, Brazil: automation, data engineering, and systems that work.',
+      'Portfolio of Matheus, a Software Engineer in Brazil: automation, data engineering, and systems that work.',
     skip: 'Skip to content',
     navLabel: 'Main',
     langLabel: 'Language',
     nav: { projects: 'Projects', experience: 'Experience', skills: 'Skills', contact: 'Contact' },
-    heroLabel: 'Software Engineer · Fortaleza',
+    heroLabel: 'Software Engineer · Brazil',
     ctaProjects: 'View projects',
     ctaContact: 'Contact',
     experience: 'Experience',
@@ -105,6 +105,7 @@ export const ui = {
     present: 'present',
     github: 'GitHub',
     linkedin: 'LinkedIn',
+    resume: 'Resume (PDF)',
     email: 'Email',
     rights: '© 2026 Matheus',
     skills: 'Skills',
@@ -115,7 +116,6 @@ export const ui = {
       'I like building solutions that go beyond just working: clean, testable code, architecture designed to be maintained and to scale, and reliable systems that other people can understand and evolve. I apply software engineering and system design best practices to everything I build, from the database to the API and the interface, always focused on real impact for the people who use it.',
     ],
     details: 'Details',
-    viewProject: 'View project page',
     hide: 'Hide',
     viewOnGithub: 'View on GitHub',
     contactKicker: 'Contact',
@@ -124,11 +124,12 @@ export const ui = {
 
 export const t = (lang: Lang) => ui[lang];
 
+/** Prefixo do site (no GitHub Pages de projeto é `/nome-do-repo`; vazio na raiz). */
+export const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 /** Caminhos por idioma. PT fica na raiz; EN sob /en. */
 export const paths = {
-  home: (l: Lang) => (l === 'pt' ? '/' : '/en/'),
-  project: (l: Lang, slug: string) => (l === 'pt' ? `/projetos/${slug}/` : `/en/projects/${slug}/`),
-  tag: (l: Lang, tag: string) => (l === 'pt' ? `/tags/${tag}/` : `/en/tags/${tag}/`),
+  home: (l: Lang) => (l === 'pt' ? `${base}/` : `${base}/en/`),
   section: (l: Lang, id: 'projetos' | 'experiencia' | 'contato' | 'habilidades') => {
     const map = {
       projetos: l === 'pt' ? 'projetos' : 'projects',
@@ -146,5 +147,7 @@ export const social = {
   github: 'https://github.com/matheusmqm',
   // Provisórios: troque pelos endereços reais.
   linkedin: 'https://www.linkedin.com/in/matheusmqm',
-  email: 'email@exemplo.com',
+  email: 'matheus.mqm@outlook.com',
+  // PDFs em public/cv/.
+  resume: { pt: 'cv/MatheusMesquita-ResumeBR.pdf', en: 'cv/MatheusMesquita-ResumeEN.pdf' },
 };

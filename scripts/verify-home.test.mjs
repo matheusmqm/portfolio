@@ -34,10 +34,34 @@ for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
     for (const id of hrefs) assert.match(html, new RegExp(`id="${id}"`), `falta id="${id}"`);
   });
 
-  test(`${lang}: hero tem 3 frases de apresentação, sem rótulos`, () => {
-    const profile = html.match(/<ul class="profile"[\s\S]*?<\/ul>/)?.[0] ?? '';
-    assert.equal((profile.match(/<li/g) ?? []).length, 3);
-    assert.doesNotMatch(profile, /<dt/);
+  test(`${lang}: hero tem só GitHub, LinkedIn e currículo, sem frases de apresentação`, () => {
+    const card = html.match(/<aside class="profile-card"[\s\S]*?<\/aside>/)?.[0] ?? '';
+    assert.doesNotMatch(card, /<ul/);
+    assert.doesNotMatch(html, /Fortaleza/);
+    assert.match(card, /github\.com/);
+    assert.match(card, /linkedin\.com/);
+    const cv = card.match(/href="([^"]*cv\/[^"]+\.pdf)"/)?.[1];
+    assert.ok(cv, 'link do currículo ausente');
+    assert.match(cv, lang === 'pt' ? /ResumeBR/ : /ResumeEN/);
+    assert.ok(existsSync('public' + cv.slice(cv.indexOf('/cv/'))), 'PDF ausente em public/cv');
+  });
+
+  test(`${lang}: experiência usa só AWS, e a home não tem hashtags de projeto`, () => {
+    const exp = html.match(/<div class="exp">[\s\S]*?<\/ul>[\s\S]*?<\/div>/)?.[0] ?? '';
+    assert.match(exp, /#aws/);
+    assert.doesNotMatch(exp, /lambda|#s3/i);
+    assert.doesNotMatch(html, /filter-chips|#(stockfish|rag|llm)/i);
+  });
+
+  test(`${lang}: links do topo ficam logo abaixo do nome`, () => {
+    const h = html.indexOf('<h1'), l = html.indexOf('profile-card'), lead = html.indexOf('hero__lead');
+    assert.ok(h < l && l < lead);
+  });
+
+  test(`${lang}: sem páginas de projeto e sem duração na experiência`, () => {
+    assert.doesNotMatch(html, /href="[^"]*\/(projetos|projects|tags)\/[^"]+"/);
+    assert.doesNotMatch(html, /exp__dur|\d+ (meses|months)/);
+    assert.match(html, /matheus\.mqm@outlook\.com/);
   });
 
   test(`${lang}: experiência termina em nov/2026 e não cita "hoje"`, () => {
@@ -72,15 +96,14 @@ for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
     assert.doesNotMatch(html, /undefined/);
   });
 
-  test(`${lang}: painel mostra o que foi feito, tecnologias e GitHub só quando há repositório`, () => {
+  test(`${lang}: painel mostra o que foi feito e GitHub só quando há repositório`, () => {
     const rows = html.match(/<article class="row[^"]*"[^]*?<\/article>/g) ?? [];
     for (const data of projects) {
       const row = rows.find((r) => r.includes(`row__title">${data.name}<`));
       assert.ok(row, `linha de ${data.name} ausente`);
       const items = row.match(/<li class="row__did-item"/g) ?? [];
       assert.equal(items.length, (data.did ?? []).length, `itens de "o que foi feito" de ${data.name}`);
-      const techs = row.match(/<div class="techs"[^]*?<\/div>/)?.[0] ?? '';
-      for (const tag of data.tags) assert.match(techs.toLowerCase(), new RegExp(tag), `tecnologia ${tag} ausente`);
+        assert.doesNotMatch(row, /techs|row__tech/, 'sem hashtags de tecnologia');
       assert.equal(row.includes('row__repo'), Boolean(data.links?.repo), `link do repositório de ${data.name}`);
       if (data.links?.repo) assert.match(row, new RegExp(`href="${data.links.repo}"`));
       assert.equal((row.match(/<figure/g) ?? []).length, (data.images ?? []).length, `figuras de ${data.name}`);
@@ -100,7 +123,6 @@ for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
     for (const r of rows) {
       const name = r.match(/<h3 class="row__title">([^<]+)</)[1];
       assert.match(r, new RegExp(`class="row__toggle"[^]*?<span class="sr-only">[^<]*${name}`), 'toggle sem nome');
-      assert.match(r, new RegExp(`class="link row__page"[^>]*>[^<]*<span class="sr-only">[^<]*${name}`), 'link sem nome');
     }
   });
 }

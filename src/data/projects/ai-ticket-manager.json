@@ -1,0 +1,71 @@
+{
+  "name": "AI Ticket Manager",
+  "year": 2026,
+  "summary": {
+    "pt": "Um agente de IA lê os chamados abertos no Jira e decide: dá para automatizar? Se sim, um robô executa e responde no próprio chamado. Se não, uma pessoa revisa.",
+    "en": "An AI agent reads tickets opened in Jira and decides: can this be automated? If so, a robot does the task and replies on the ticket itself. If not, a person reviews it."
+  },
+  "context": {
+    "pt": "Boa parte dos chamados internos é repetitiva, mas entregar tarefas a uma IA sem controle é arriscado. Aqui a IA só propõe: o código valida se os dados estão completos e se a atividade é permitida, e tudo que for duvidoso vai para revisão humana, com os dados extraídos e o motivo. O resultado volta ao Jira como comentário, com screenshots e logs como evidência, e um painel web mostra os chamados e as métricas de automação.",
+    "en": "Many internal tickets are repetitive, but handing tasks to an AI without control is risky. Here the AI only proposes: code validates that the data is complete and the activity is allowed, and anything doubtful goes to human review, with the extracted data and the reason. The result returns to Jira as a comment, with screenshots and logs as evidence, and a web dashboard shows the tickets and the automation metrics."
+  },
+  "did": [
+    {
+      "pt": "Princípio de projeto: o modelo propõe, o código decide. O Claude devolve um JSON com categoria, prioridade, dados extraídos, decisão e justificativa, e regras determinísticas aprovam ou mandam para um humano.",
+      "en": "Design principle: the model proposes, the code decides. Claude returns JSON with category, priority, extracted data, decision and rationale, and deterministic rules approve it or send it to a human."
+    },
+    {
+      "pt": "Worker que usa os status do Jira como filas (Novo, Fila Automação, Em Execução, Concluído, Falhou, Aguardando Revisão Humana) e roda em loop; a falha em um chamado nunca derruba o processo.",
+      "en": "Worker that uses Jira statuses as queues (New, Automation Queue, Running, Done, Failed, Awaiting Human Review) and loops continuously; a failure on one ticket never takes the process down."
+    },
+    {
+      "pt": "Três robôs (RPA): Calculadora do Windows com pywinauto, formulário web com Playwright e consulta de pedidos em planilha com DuckDB.",
+      "en": "Three robots (RPA): the Windows Calculator via pywinauto, a web form via Playwright and an order lookup over a spreadsheet with DuckDB."
+    },
+    {
+      "pt": "Integração com a API REST do Jira Cloud, com retentativas em limite de requisições e descoberta automática dos campos personalizados.",
+      "en": "Integration with the Jira Cloud REST API, with retries on rate limits and automatic discovery of custom fields."
+    },
+    {
+      "pt": "Painel web (React e Vite, API em FastAPI) para criar chamados, acompanhar o andamento e ver métricas: automação contra revisão humana, categorias e falhas.",
+      "en": "Web dashboard (React and Vite, FastAPI API) to create tickets, follow their progress and see metrics: automation versus human review, categories and failures."
+    }
+  ],
+  "tags": ["python", "fastapi", "react", "llm"],
+  "links": { "repo": "https://github.com/matheusmqm/ai-ticket-manager" },
+  "images": [
+    {
+      "src": "/projects/ai-ticket-manager/painel-acompanhar.png",
+      "alt": {
+        "pt": "Painel de acompanhamento dos chamados, com a etapa atual, a automação escolhida e a decisão da IA.",
+        "en": "Ticket tracking dashboard showing the current stage, the chosen automation and the AI's decision."
+      },
+      "caption": {
+        "pt": "Acompanhamento: cada pedido com a etapa atual, a automação escolhida e a decisão da IA (automatizar ou revisão humana).",
+        "en": "Tracking: each request with its current stage, the chosen automation and the AI's decision (automate or human review)."
+      }
+    },
+    {
+      "src": "/projects/ai-ticket-manager/painel-criar.png",
+      "alt": {
+        "pt": "Tela para criar um novo chamado.",
+        "en": "New ticket screen."
+      },
+      "caption": {
+        "pt": "Novo chamado: o pedido nasce no Jira com status Novo.",
+        "en": "New ticket: the request is created in Jira with the New status."
+      }
+    },
+    {
+      "src": "/projects/ai-ticket-manager/painel-metricas.png",
+      "alt": {
+        "pt": "Painel de métricas com a divisão entre automação e revisão humana e as falhas por tipo.",
+        "en": "Metrics dashboard with the split between automation and human review, and failures by type."
+      },
+      "caption": {
+        "pt": "Métricas: quanto o robô resolve, quanto vai para a equipe e onde ele falha. Os números saem direto do Jira.",
+        "en": "Metrics: how much the robot resolves, how much goes to the team and where it fails. The numbers come straight from Jira."
+      }
+    }
+  ]
+}
