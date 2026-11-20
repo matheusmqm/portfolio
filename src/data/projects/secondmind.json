@@ -3,27 +3,100 @@
   "year": 2026,
   "status": { "pt": "Em desenvolvimento", "en": "In development" },
   "summary": {
-    "pt": "Base de conhecimento com RAG e chatbot que responde com trechos dos seus próprios documentos.",
-    "en": "Knowledge base with RAG and a chatbot that answers with excerpts from your own documents."
+    "pt": "Envie PDFs, Excel e CSV e pergunte sobre tudo de uma vez. Textos vêm com fonte e página; números são calculados com SQL de verdade.",
+    "en": "Upload PDFs, Excel and CSV files and ask about all of them at once. Text answers cite file and page; numbers come from real SQL."
   },
   "context": {
-    "pt": "Anotações, PDFs e artigos ficam espalhados e difíceis de reencontrar. O SecondMind reúne esses arquivos numa base única e responde perguntas citando de onde veio cada trecho.",
-    "en": "Notes, PDFs, and articles end up scattered and hard to find again. SecondMind gathers those files into a single base and answers questions by citing where each excerpt came from."
+    "pt": "Relatórios, contratos e planilhas ficam espalhados e uma pergunta simples exige abrir vários arquivos. O SecondMind junta tudo numa base única e responde cruzando as fontes. Como modelos erram conta, as planilhas não são lidas como texto: um agente escreve e executa consultas SQL somente leitura, e a resposta mostra cada passo, o número de chamadas e o custo estimado. Nenhum número é uma caixa-preta.",
+    "en": "Reports, contracts and spreadsheets end up scattered, and a simple question means opening several files. SecondMind gathers them into one base and answers by crossing the sources. Since models get arithmetic wrong, spreadsheets are not read as text: an agent writes and runs read-only SQL, and the answer shows every step, the number of calls and the estimated cost. No number is a black box."
   },
   "did": [
     {
-      "pt": "Leitura de vários formatos de arquivo e indexação por embeddings.",
-      "en": "Reading of several file formats and indexing with embeddings."
+      "pt": "RAG para PDFs: o texto é dividido em trechos com sobreposição que guardam o número da página, com embeddings locais (Ollama, bge-m3) e busca vetorial em Postgres com pgvector.",
+      "en": "RAG for PDFs: text is split into overlapping chunks that keep the page number, with local embeddings (Ollama, bge-m3) and vector search in Postgres with pgvector."
     },
     {
-      "pt": "Chatbot com RAG que mostra a fonte de cada resposta.",
-      "en": "RAG chatbot that shows the source of every answer."
+      "pt": "Agente com ferramentas (busca, listar tabelas, descrever tabela, executar SQL) em que cada aba de planilha vira uma tabela consultada em memória com DuckDB.",
+      "en": "Tool-using agent (search, list tables, describe table, run SQL) where each spreadsheet sheet becomes a table queried in memory with DuckDB."
     },
     {
-      "pt": "Interface web simples para enviar arquivos e conversar com a base.",
-      "en": "Simple web interface to upload files and chat with the base."
+      "pt": "Sandbox de SQL: aceita um único SELECT, sem acesso a arquivos ou rede, com limite de linhas e de tempo de execução.",
+      "en": "SQL sandbox: accepts a single SELECT, with no file or network access, and caps on rows and execution time."
+    },
+    {
+      "pt": "Roteamento para gastar pouco: o agente só roda quando uma planilha é claramente relacionada à pergunta; senão, uma única chamada ao Claude responde a partir dos PDFs.",
+      "en": "Routing to keep costs low: the agent only runs when a spreadsheet is clearly related to the question; otherwise a single Claude call answers from the PDFs."
+    },
+    {
+      "pt": "Entende formatos brasileiros (R$ 1.234,56, 31/12/2025, CSV com ponto e vírgula) e cada fonte citada é um link: abre o PDF na página citada ou a prévia da planilha.",
+      "en": "Understands Brazilian formats (R$ 1.234,56, 31/12/2025, semicolon CSVs) and every cited source is a link: it opens the PDF at the cited page or a preview of the sheet."
+    },
+    {
+      "pt": "Dados de teste fictícios com inconsistências propositais entre PDF e planilha (o relatório diz 96,0% de SLA e os dados mostram 93,74%), para verificar se a resposta aponta a divergência.",
+      "en": "Fictional test data with deliberate PDF-versus-spreadsheet inconsistencies (the report says 96.0% SLA while the data shows 93.74%), to check that an answer flags the mismatch."
+    },
+    {
+      "pt": "FastAPI e Supabase no backend, React 19 com HeroUI e temas claro e escuro no frontend.",
+      "en": "FastAPI and Supabase on the backend, React 19 with HeroUI and light and dark themes on the frontend."
     }
   ],
-  "tags": ["rag", "python"],
-  "links": {}
+  "tags": ["rag", "python", "fastapi", "react", "llm"],
+  "links": { "repo": "https://github.com/matheusmqm/SecondMind" },
+  "images": [
+    {
+      "src": "/projects/secondmind/library-light.png",
+      "alt": {
+        "pt": "SecondMind respondendo a uma pergunta que cruza um PDF e um arquivo Excel.",
+        "en": "SecondMind answering a question that crosses a PDF and an Excel file."
+      },
+      "caption": {
+        "pt": "Uma pergunta respondida a partir de um PDF e de um Excel, com a fonte de cada número. Dados de exemplo fictícios.",
+        "en": "A question answered from a PDF and an Excel file, with the source of each number. Fictional sample data."
+      }
+    },
+    {
+      "src": "/projects/secondmind/excel-agent-trace.png",
+      "alt": {
+        "pt": "Resposta com o rastro do agente: consultas SQL, número de chamadas e custo estimado.",
+        "en": "Answer with the agent trace: SQL queries, number of calls and estimated cost."
+      },
+      "caption": {
+        "pt": "Como a resposta foi construída: cada SQL executado, as chamadas ao modelo e o custo estimado.",
+        "en": "How the answer was built: every SQL query run, the model calls and the estimated cost."
+      }
+    },
+    {
+      "src": "/projects/secondmind/pdf-citation.png",
+      "alt": {
+        "pt": "PDF aberto na página citada pela resposta.",
+        "en": "PDF opened at the page cited by the answer."
+      },
+      "caption": {
+        "pt": "Clicar na fonte abre o PDF direto na página citada.",
+        "en": "Clicking a source opens the PDF at the cited page."
+      }
+    },
+    {
+      "src": "/projects/secondmind/sheet-viewer.png",
+      "alt": {
+        "pt": "Prévia da planilha usada na resposta, com uma aba por planilha.",
+        "en": "Preview of the spreadsheet used in the answer, with one tab per sheet."
+      },
+      "caption": {
+        "pt": "Prévia da planilha consultada, com uma aba para cada sheet.",
+        "en": "Preview of the queried spreadsheet, with one tab per sheet."
+      }
+    },
+    {
+      "src": "/projects/secondmind/library-dark.png",
+      "alt": {
+        "pt": "Tema escuro do SecondMind.",
+        "en": "SecondMind dark theme."
+      },
+      "caption": {
+        "pt": "Tema escuro, que segue o sistema até você escolher.",
+        "en": "Dark theme, which follows the system until you pick one."
+      }
+    }
+  ]
 }
