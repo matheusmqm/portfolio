@@ -31,7 +31,6 @@ const items = entries.map((e) => ({
   slug: e.id,
   year: e.data.year,
   name: e.data.name,
-  status: e.data.status?.[lang],
   summary: e.data.summary?.[lang],
   context: e.data.context?.[lang],
   did: e.data.did?.map((d) => d[lang]) ?? [],
@@ -39,29 +38,27 @@ const items = entries.map((e) => ({
   repo: e.data.links.repo,
   demo: e.data.links.demo,
   tags: e.data.tags,
-  href: paths.project(lang, e.id),
   search: [e.data.name, e.data.summary?.[lang], ...e.data.tags].filter(Boolean).join(' ').toLowerCase(),
 }));
-const allTags = [...new Set(items.flatMap((i) => i.tags))].sort();
 const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
 ---
 
 <Base lang={lang} altHref={altHref}>
   <section class="wrap hero">
+    <span class="label">{u.heroLabel}</span>
+    <h1>{owner}</h1>
+    <ProfileCard lang={lang} />
     <div class="hero__grid">
       <div class="hero__main">
-        <span class="label">{u.heroLabel}</span>
-        <h1>{owner}</h1>
         <p class="lead hero__lead">{u.about[0]}</p>
         <div class="hero__actions">
           <Button variant="primary" href={`#${id.projects}`}>{u.ctaProjects}</Button>
           <Button variant="secondary" href={`#${id.contact}`}>{u.ctaContact}</Button>
         </div>
       </div>
-      <ProfileCard lang={lang} />
-    </div>
-    <div class="hero__statement" id={id.about}>
-      <p>{u.about[1]}</p>
+      <div class="hero__statement" id={id.about}>
+        <p>{u.about[1]}</p>
+      </div>
     </div>
   </section>
 
@@ -84,7 +81,6 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
             org={e.org}
             from={e.from[lang]}
             to={e.to[lang]}
-            duration={lang === 'pt' ? `${e.months} meses` : `${e.months} months`}
             results={e.results[lang]}
             stack={e.stack}
           />
@@ -96,18 +92,18 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
   <section class="section" id={id.projects} aria-labelledby={`${id.projects}-title`}>
     <div class="wrap">
       <div class="section__head"><h2 id={`${id.projects}-title`}>{u.projects}</h2></div>
-      <FilterBar lang={lang} tags={allTags} />
+      <FilterBar lang={lang} />
       <div id="view-list" class="rows">
         {
           items.map((i, n) => (
-            <ProjectRow lang={lang} index={n} slug={i.slug} name={i.name} year={i.year} status={i.status} summary={i.summary} context={i.context} did={i.did} tags={i.tags} images={i.images} repo={i.repo} demo={i.demo} href={i.href} search={i.search} />
+            <ProjectRow lang={lang} index={n} slug={i.slug} name={i.name} summary={i.summary} context={i.context} did={i.did} images={i.images} repo={i.repo} demo={i.demo} search={i.search} />
           ))
         }
       </div>
       <div id="view-grid" class="grid" hidden>
         {
           items.map((i) => (
-            <ProjectCard year={i.year} name={i.name} summary={i.summary} tags={i.tags} href={i.href} search={i.search} />
+            <ProjectCard name={i.name} summary={i.summary} search={i.search} />
           ))
         }
       </div>
@@ -129,45 +125,31 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
 </Base>
 
 <script is:inline>
-  // Melhoria progressiva: busca, filtro por hashtag e grade/lista. Sem JS os chips são links.
+  // Melhoria progressiva: busca e grade/lista.
   (function () {
-    var chips = document.querySelectorAll('#filter-chips [data-tag]');
     var input = document.getElementById('project-search');
     var field = document.getElementById('search-field');
     var toggle = document.getElementById('view-toggle');
     var grid = document.getElementById('view-grid');
     var list = document.getElementById('view-list');
     var none = document.getElementById('no-results');
-    var state = { tag: '', q: '', view: 'list' };
+    var state = { q: '', view: 'list' };
     field.hidden = false;
     toggle.hidden = false;
     var kbd = document.getElementById('search-kbd');
     if (/Mac|iPhone|iPad/.test(navigator.platform)) kbd.textContent = '⌘ K';
     function apply() {
       var shown = 0;
-      document.querySelectorAll('[data-tags]').forEach(function (el) {
-        var tags = ' ' + el.getAttribute('data-tags') + ' ';
-        var ok = (!state.tag || tags.indexOf(' ' + state.tag + ' ') > -1) && (!state.q || el.getAttribute('data-search').indexOf(state.q) > -1);
+      document.querySelectorAll('[data-search]').forEach(function (el) {
+        var ok = (!state.q || el.getAttribute('data-search').indexOf(state.q) > -1);
         el.hidden = !ok;
         if (ok && el.offsetParent !== null) shown++;
       });
       grid.hidden = state.view !== 'grid';
       list.hidden = state.view !== 'list';
-      shown = (state.view === 'grid' ? grid : list).querySelectorAll('[data-tags]:not([hidden])').length;
+      shown = (state.view === 'grid' ? grid : list).querySelectorAll('[data-search]:not([hidden])').length;
       none.hidden = shown > 0;
     }
-    chips.forEach(function (c) {
-      c.setAttribute('role', 'button');
-      c.setAttribute('aria-pressed', c.getAttribute('aria-current') === 'true' ? 'true' : 'false');
-      c.removeAttribute('aria-current');
-      c.addEventListener('click', function (e) {
-        e.preventDefault();
-        state.tag = c.getAttribute('data-tag');
-        chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
-        apply();
-      });
-      c.addEventListener('keydown', function (e) { if (e.key === ' ') { e.preventDefault(); c.click(); } });
-    });
     input.addEventListener('input', function () { state.q = input.value.trim().toLowerCase(); apply(); });
     toggle.querySelectorAll('button').forEach(function (b) {
       b.addEventListener('click', function () {

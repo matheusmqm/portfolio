@@ -7,7 +7,6 @@ export interface Experience {
   org: string;
   from: L;
   to: L;
-  months: number;
   results: L<string[]>;
   stack: string[];
 }
@@ -15,11 +14,10 @@ export interface Experience {
 /** Resultados genéricos: nunca cite nomes de projetos internos do BTG Pactual. */
 export const experience: Experience[] = [
   {
-    role: { pt: 'Automation Developer', en: 'Automation Developer' },
+    role: { pt: 'Summer Intern - Automation Developer', en: 'Summer Intern - Automation Developer' },
     org: 'BTG Pactual',
     from: { pt: 'jul/2026', en: 'Jul 2026' },
     to: { pt: 'nov/2026', en: 'Nov 2026' },
-    months: 5,
     results: {
       pt: [
         'Automações de backend e rotinas agendadas que reduziram o esforço manual da operação.',
@@ -32,17 +30,7 @@ export const experience: Experience[] = [
         'Maintenance of 15+ internal systems: web apps, scheduled jobs, and Playwright bots.',
       ],
     },
-    stack: ['python', 'pandas', 'playwright', 'postgresql', 'fastapi', 'react', 'aws-lambda', 's3'],
-  },
-];
-
-/** Frases curtas do topo, sem rótulo: cada uma lê como uma linha de apresentação. */
-export const profile: L[] = [
-  { pt: 'Moro em Fortaleza, no Ceará.', en: 'I live in Fortaleza, Brazil.' },
-  { pt: 'Curso Engenharia da Computação no IFCE.', en: 'I study Computer Engineering at IFCE.' },
-  {
-    pt: 'Trabalho com automação, engenharia de dados e finanças quantitativas.',
-    en: 'I work on automation, data engineering and quantitative finance.',
+    stack: ['python', 'pandas', 'playwright', 'postgresql', 'fastapi', 'react', 'aws'],
   },
 ];
 

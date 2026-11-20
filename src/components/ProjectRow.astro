@@ -1,5 +1,4 @@
 ---
-import TechBadge from './TechBadge.astro';
 import { t, type Lang } from '../i18n/ui';
 interface Image {
   src: string;
@@ -11,39 +10,32 @@ interface Props {
   index: number;
   slug: string;
   name: string;
-  year: number;
-  status?: string;
   summary?: string;
   context?: string;
   did: string[];
-  tags: string[];
   images: Image[];
   repo?: string;
   demo?: string;
-  href: string;
   search: string;
 }
-const { lang, index, slug, name, year, status, summary, context, did, tags, images, repo, demo, href, search } =
+const { lang, index, slug, name, summary, context, did, images, repo, demo, search } =
   Astro.props;
 const u = t(lang);
 const num = String(index + 1).padStart(2, '0');
-const meta = [year, status].filter(Boolean).join(' · ');
 const thumb = images[0]?.src;
 const [hero, ...rest] = images;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const url = (src: string) => (src.startsWith('/') ? base + src : src);
 const panelId = `proj-${slug}`;
 ---
 
-<article class:list={['row', thumb && 'row--has-thumb']} data-tags={tags.join(' ')} data-search={search}>
+<article class:list={['row', thumb && 'row--has-thumb']} data-search={search}>
   <span class="row__num" aria-hidden="true">{num}</span>
   <div class="row__body">
     <h3 class="row__title">{name}</h3>
     {summary && <p class="row__summary">{summary}</p>}
-    <div class="row__meta">
-      <span class="meta">{meta}</span>
-      {tags.length > 0 && <div class="row__tech">{tags.map((tg) => <TechBadge tag={tg} />)}</div>}
-    </div>
   </div>
-  {thumb && <img class="row__thumb" src={thumb} alt="" loading="lazy" width="176" height="110" />}
+  {thumb && <img class="row__thumb" src={url(thumb)} alt="" loading="lazy" width="176" height="110" />}
   <button
     type="button"
     class="row__toggle"
@@ -74,7 +66,6 @@ const panelId = `proj-${slug}`;
             </div>
           )
         }
-        {tags.length > 0 && <div class="techs">{tags.map((tg) => <TechBadge tag={tg} label />)}</div>}
         <div class="row__links">
           {
             repo && (
@@ -90,12 +81,11 @@ const panelId = `proj-${slug}`;
               </a>
             )
           }
-          <a class="link row__page" href={href}>{u.viewProject}<span class="sr-only"> {name}</span></a>
         </div>
         {
           hero && (
             <figure class="row__fig">
-              <img src={hero.src} alt={hero.alt} loading="lazy" width="1600" height="1000" />
+              <img src={url(hero.src)} alt={hero.alt} loading="lazy" width="1600" height="1000" />
               {hero.caption && <figcaption>{hero.caption}</figcaption>}
             </figure>
           )
@@ -107,7 +97,7 @@ const panelId = `proj-${slug}`;
         <div class="row__gallery">
           {rest.map((im) => (
             <figure class="row__fig">
-              <img src={im.src} alt={im.alt} loading="lazy" width="1600" height="1000" />
+              <img src={url(im.src)} alt={im.alt} loading="lazy" width="1600" height="1000" />
               {im.caption && <figcaption>{im.caption}</figcaption>}
             </figure>
           ))}

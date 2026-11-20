@@ -1,28 +1,16 @@
 ---
 import SearchField from './SearchField.astro';
-import { t, paths, type Lang } from '../i18n/ui';
+import { t, type Lang } from '../i18n/ui';
 interface Props {
   lang: Lang;
-  tags: string[];
 }
-const { lang, tags } = Astro.props;
+const { lang } = Astro.props;
 const u = t(lang);
 ---
 
 <div class="toolbar">
   <SearchField placeholder={u.searchPlaceholder} label={u.searchLabel} />
   <div class="toolbar__row">
-    <!-- Sem JS, os chips são links para a página da hashtag. Com JS viram filtros (aria-pressed). -->
-    <div class="tags tags--chips" role="group" aria-label={u.filterLabel} id="filter-chips">
-      <a class="tag tag--chip" href={paths.home(lang)} data-tag="" aria-current="true">#{u.all}</a>
-      {
-        tags.map((tag) => (
-          <a class="tag tag--chip" href={paths.tag(lang, tag)} data-tag={tag}>
-            #{tag}
-          </a>
-        ))
-      }
-    </div>
     <div class="view-toggle" role="group" aria-label={u.viewLabel} id="view-toggle" hidden>
       <button type="button" data-view="list" aria-pressed="true">{u.list}</button>
       <button type="button" data-view="grid" aria-pressed="false">{u.grid}</button>

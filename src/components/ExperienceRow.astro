@@ -5,17 +5,15 @@ interface Props {
   org: string;
   from: string;
   to: string;
-  duration: string;
   results: string[];
   stack: string[];
 }
-const { role, org, from, to, duration, results, stack } = Astro.props;
+const { role, org, from, to, results, stack } = Astro.props;
 ---
 
 <div class="exp">
   <div class="exp__when">
     <p class="exp__dates"><span>{from}</span><span class="exp__arrow" aria-hidden="true"></span><span>{to}</span></p>
-    <p class="exp__dur">{duration}</p>
   </div>
   <div>
     <h3 class="exp__role">{role}</h3>
