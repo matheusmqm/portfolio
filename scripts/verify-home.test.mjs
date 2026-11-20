@@ -19,12 +19,12 @@ const expectedSkills = [
 ];
 
 for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
-  test(`${lang}: seção sobre vem entre o nome e as habilidades, com os 2 parágrafos`, () => {
+  test(`${lang}: sobre vive no topo, entre o nome e as habilidades, com os 2 parágrafos`, () => {
     const a = html.indexOf(`id="${about}"`), k = html.indexOf(`id="${skills}"`);
     assert.ok(a > html.indexOf('<h1') && a < k, 'sobre deve ficar entre o nome e as habilidades');
-    const section = html.match(new RegExp(`<section[^>]*id="${about}"[^]*?</section>`))[0];
-    assert.equal((section.match(/<p>/g) ?? []).length, 2);
-    assert.match(section, lang === 'pt' ? /Sou Software Engineer e estudante de Engenharia de Computação no IFCE/ : /I am a Software Engineer/);
+    assert.match(html, /class="lead hero__lead"/);
+    assert.match(html, /class="hero__statement"/);
+    assert.match(html, lang === 'pt' ? /Sou Software Engineer e estudante de Engenharia de Computação no IFCE/ : /I am a Software Engineer/);
   });
 
   test(`${lang}: links da navegação apontam para ids existentes`, () => {
@@ -34,9 +34,16 @@ for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
     for (const id of hrefs) assert.match(html, new RegExp(`id="${id}"`), `falta id="${id}"`);
   });
 
-  test(`${lang}: hero tem a ficha com 4 itens`, () => {
-    const profile = html.match(/<dl class="profile"[\s\S]*?<\/dl>/)?.[0] ?? '';
-    assert.equal((profile.match(/<dt/g) ?? []).length, 4);
+  test(`${lang}: hero tem 3 frases de apresentação, sem rótulos`, () => {
+    const profile = html.match(/<ul class="profile"[\s\S]*?<\/ul>/)?.[0] ?? '';
+    assert.equal((profile.match(/<li/g) ?? []).length, 3);
+    assert.doesNotMatch(profile, /<dt/);
+  });
+
+  test(`${lang}: experiência termina em nov/2026 e não cita "hoje"`, () => {
+    const exp = html.match(/<div class="exp">[\s\S]*?<\/ul>/)?.[0] ?? '';
+    assert.match(exp, lang === 'pt' ? /jul\/2026[\s\S]*nov\/2026/ : /Jul 2026[\s\S]*Nov 2026/);
+    assert.doesNotMatch(exp, /hoje|present/i);
   });
 
   test(`${lang}: seção "${heading}" tem os 3 grupos pedidos, cada skill com ícone`, () => {

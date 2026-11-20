@@ -7,6 +7,7 @@ export interface Experience {
   org: string;
   from: L;
   to: L;
+  months: number;
   results: L<string[]>;
   stack: string[];
 }
@@ -17,10 +18,11 @@ export const experience: Experience[] = [
     role: { pt: 'Automation Developer', en: 'Automation Developer' },
     org: 'BTG Pactual',
     from: { pt: 'jul/2026', en: 'Jul 2026' },
-    to: { pt: 'hoje', en: 'present' },
+    to: { pt: 'nov/2026', en: 'Nov 2026' },
+    months: 5,
     results: {
       pt: [
-        'Automações de backend e rotinas agendadas que reduzem o esforço manual da operação.',
+        'Automações de backend e rotinas agendadas que reduziram o esforço manual da operação.',
         'Projetos entregues de ponta a ponta que economizam mais de 250 horas de analistas por mês.',
         'Manutenção de mais de 15 sistemas internos: aplicações web, rotinas agendadas e robôs com Playwright.',
       ],
@@ -34,21 +36,13 @@ export const experience: Experience[] = [
   },
 ];
 
-export interface ProfileFact {
-  key: 'basedIn' | 'now' | 'degree' | 'focus';
-  value: L;
-}
-
-export const profile: ProfileFact[] = [
-  { key: 'basedIn', value: { pt: 'Fortaleza, CE, Brasil', en: 'Fortaleza, CE, Brazil' } },
-  { key: 'now', value: { pt: 'Automation Developer, BTG Pactual', en: 'Automation Developer, BTG Pactual' } },
-  { key: 'degree', value: { pt: 'Engenharia da Computação, IFCE', en: 'Computer Engineering, IFCE' } },
+/** Frases curtas do topo, sem rótulo: cada uma lê como uma linha de apresentação. */
+export const profile: L[] = [
+  { pt: 'Moro em Fortaleza, no Ceará.', en: 'I live in Fortaleza, Brazil.' },
+  { pt: 'Curso Engenharia da Computação no IFCE.', en: 'I study Computer Engineering at IFCE.' },
   {
-    key: 'focus',
-    value: {
-      pt: 'Automação, engenharia de dados, finanças quantitativas',
-      en: 'Automation, data engineering, quantitative finance',
-    },
+    pt: 'Trabalho com automação, engenharia de dados e finanças quantitativas.',
+    en: 'I work on automation, data engineering and quantitative finance.',
   },
 ];
 
