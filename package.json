@@ -15,8 +15,7 @@
     "astro": "^7.4.12"
   },
   "devDependencies": {
-    "@fontsource-variable/crimson-pro": "^5.3.0",
-    "@fontsource-variable/newsreader": "^5.3.0",
+    "@iconify-json/devicon-plain": "^1.2.75",
     "@iconify-json/logos": "^1.2.20",
     "@iconify-json/lucide": "^1.2.156",
     "simple-icons": "^16.38.0"

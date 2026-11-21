@@ -67,6 +67,7 @@ export const skills: SkillGroup[] = [
     title: { pt: 'Dados e back-end', en: 'Data and backend' },
     items: [
       { name: 'pandas', icon: 'pandas' },
+      { name: 'Polars', icon: 'polars' },
       { name: 'NumPy', icon: 'numpy' },
       { name: 'SQLAlchemy', icon: 'sqlalchemy' },
       { name: 'DuckDB', icon: 'duckdb' },
@@ -82,6 +83,7 @@ export const skills: SkillGroup[] = [
       { name: 'AWS', icon: 'logos:aws' },
       { name: 'Git', icon: 'git' },
       { name: 'GitHub', icon: 'github' },
+      { name: 'Azure DevOps', icon: 'devicon-plain:azuredevops' },
       { name: 'Docker', icon: 'docker' },
       { name: 'CLI', icon: 'lucide:terminal' },
       { name: 'Claude Code', icon: 'claudecode' },

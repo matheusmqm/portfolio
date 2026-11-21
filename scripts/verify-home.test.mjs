@@ -14,8 +14,8 @@ const pages = {
 
 const expectedSkills = [
   ['Python', 'SQL', 'Rust', 'C', 'C++', 'JavaScript', 'TypeScript'],
-  ['pandas', 'NumPy', 'SQLAlchemy', 'DuckDB', 'PostgreSQL', 'FastAPI', 'Playwright', 'RAG'],
-  ['AWS', 'Git', 'GitHub', 'Docker', 'CLI', 'Claude Code', 'Notion', 'Obsidian'],
+  ['pandas', 'Polars', 'NumPy', 'SQLAlchemy', 'DuckDB', 'PostgreSQL', 'FastAPI', 'Playwright', 'RAG'],
+  ['AWS', 'Git', 'GitHub', 'Azure DevOps', 'Docker', 'CLI', 'Claude Code', 'Notion', 'Obsidian'],
 ];
 
 for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
@@ -83,10 +83,10 @@ for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
     for (const url of icons) assert.ok(existsSync('public' + url.slice(url.indexOf('/icons/'))), `ícone ausente: ${url}`);
   });
 
-  test(`${lang}: projetos em linhas numeradas com botão de detalhes e painel`, () => {
+  test(`${lang}: projetos em linhas, sem numeração, com botão de detalhes e painel`, () => {
     const rows = html.match(/<article class="row[^"]*"[^]*?<\/article>/g) ?? [];
     assert.equal(rows.length, projects.length);
-    assert.match(rows[0], /row__num[^>]*>01</);
+    assert.doesNotMatch(html, /row__num/);
     for (const r of rows) {
       assert.match(r, /<button[^>]*class="row__toggle"[^>]*aria-expanded="false"/);
       const id = r.match(/aria-controls="([^"]+)"/)?.[1];
@@ -135,7 +135,7 @@ test('coluna de miniatura só é reservada quando a linha tem miniatura', () => 
   assert.match(readFileSync('src/components/ProjectRow.astro', 'utf8'), /row--has-thumb/);
 });
 
-test('título do hero usa a Newsreader e Crimson Pro, com arquivo local', () => {
+test('título do hero usa a Newsreader, com arquivo local', () => {
   const tokens = readFileSync('src/styles/tokens.css', 'utf8');
   assert.match(tokens, /font-family: "Newsreader"/);
   assert.match(tokens, /--font-display: "Newsreader"/);

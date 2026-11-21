@@ -7,7 +7,6 @@ interface Image {
 }
 interface Props {
   lang: Lang;
-  index: number;
   slug: string;
   name: string;
   summary?: string;
@@ -18,10 +17,9 @@ interface Props {
   demo?: string;
   search: string;
 }
-const { lang, index, slug, name, summary, context, did, images, repo, demo, search } =
+const { lang, slug, name, summary, context, did, images, repo, demo, search } =
   Astro.props;
 const u = t(lang);
-const num = String(index + 1).padStart(2, '0');
 const thumb = images[0]?.src;
 const [hero, ...rest] = images;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -30,7 +28,6 @@ const panelId = `proj-${slug}`;
 ---
 
 <article class:list={['row', thumb && 'row--has-thumb']} data-search={search}>
-  <span class="row__num" aria-hidden="true">{num}</span>
   <div class="row__body">
     <h3 class="row__title">{name}</h3>
     {summary && <p class="row__summary">{summary}</p>}

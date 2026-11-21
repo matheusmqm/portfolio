@@ -95,8 +95,8 @@ const altHref = paths.home(lang === 'pt' ? 'en' : 'pt');
       <FilterBar lang={lang} />
       <div id="view-list" class="rows">
         {
-          items.map((i, n) => (
-            <ProjectRow lang={lang} index={n} slug={i.slug} name={i.name} summary={i.summary} context={i.context} did={i.did} images={i.images} repo={i.repo} demo={i.demo} search={i.search} />
+          items.map((i) => (
+            <ProjectRow lang={lang} slug={i.slug} name={i.name} summary={i.summary} context={i.context} did={i.did} images={i.images} repo={i.repo} demo={i.demo} search={i.search} />
           ))
         }
       </div>
