@@ -14,8 +14,8 @@ const pages = {
 
 const expectedSkills = [
   ['Python', 'SQL', 'Rust', 'C', 'C++', 'JavaScript', 'TypeScript'],
-  ['pandas', 'NumPy', 'SQLAlchemy', 'DuckDB', 'PostgreSQL', 'FastAPI', 'Playwright', 'RAG'],
-  ['AWS', 'Git', 'GitHub', 'Docker', 'CLI', 'Claude Code', 'Notion', 'Obsidian'],
+  ['pandas', 'Polars', 'NumPy', 'SQLAlchemy', 'DuckDB', 'PostgreSQL', 'FastAPI', 'Playwright', 'RAG'],
+  ['AWS', 'Git', 'GitHub', 'Azure DevOps', 'Docker', 'CLI', 'Claude Code', 'Notion', 'Obsidian'],
 ];
 
 for (const [lang, { html, about, skills, heading }] of Object.entries(pages)) {
@@ -135,7 +135,7 @@ test('coluna de miniatura só é reservada quando a linha tem miniatura', () => 
   assert.match(readFileSync('src/components/ProjectRow.astro', 'utf8'), /row--has-thumb/);
 });
 
-test('título do hero usa a Newsreader e Crimson Pro, com arquivo local', () => {
+test('título do hero usa a Newsreader, com arquivo local', () => {
   const tokens = readFileSync('src/styles/tokens.css', 'utf8');
   assert.match(tokens, /font-family: "Newsreader"/);
   assert.match(tokens, /--font-display: "Newsreader"/);
